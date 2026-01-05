@@ -7,17 +7,21 @@ const Desc = props => (
     </Typography.Title>
   </Flex>
 );
-export default function App() {
+
+import EditorInput from "./EditorInput";
+//import EditorOutput from "./EditorOutput";
+
+export default function Editor() {
   const [sizes, setSizes] = React.useState(['50%', '50%']);
   const [enabled, setEnabled] = React.useState(true);
   return (
     <Flex vertical gap="middle">
       <Splitter
         onResize={setSizes}
-        style={{ height: 200, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
+        style={{ height: 500, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
       >
         <Splitter.Panel size={sizes[0]} resizable={enabled}>
-          <Desc text="First" />
+          <EditorInput />
         </Splitter.Panel>
         <Splitter.Panel size={sizes[1]}>
           <Desc text="Second" />

@@ -1,11 +1,14 @@
+import React from 'react';
+import { Typography } from 'antd';
+
+const { Title, Paragraph, Text, Link } = Typography;
+
 export default function Header() {
   return (
-    <header className="hero is-dark is-bold">
-      <div className="hero-body">
-        <div className="container">
-          <h1 className="title">Re:Dates</h1>
-        </div>
-      </div>
+    <header>
+      <Typography>
+        <Title>Re:Dates</Title>
+      </Typography>
     </header>
   );
 }
