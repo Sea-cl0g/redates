@@ -9,6 +9,7 @@ const Desc = props => (
 );
 
 import EditorInput from "./EditorInput";
+import EditorOutput from './EditorOutput';
 //import EditorOutput from "./EditorOutput";
 
 export default function Editor() {
@@ -24,7 +25,7 @@ export default function Editor() {
           <EditorInput />
         </Splitter.Panel>
         <Splitter.Panel size={sizes[1]}>
-          <Desc text="Second" />
+          <EditorOutput />
         </Splitter.Panel>
       </Splitter>
       <Flex gap="middle" justify="space-between">
