@@ -1,5 +1,4 @@
 import React from 'react';
-import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
 import { Input, Flex, Tabs, Divider } from 'antd';
 
 const onChange = key => {
