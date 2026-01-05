@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
-import { Flex, Switch, Typography, Button } from 'antd';
+import { Flex, Switch, Typography, Button, Divider } from 'antd';
 
 
 export default function EditorOutput() {
@@ -40,6 +40,7 @@ export default function EditorOutput() {
             <Flex justify="space-between" align="center">
                 <Flex justify="flex-start" align="center" gap="small">
                     <Typography.Text strong>AI Mode</Typography.Text>
+                    <Divider orientation="vertical" />
                     <Switch
                         checked={isAiEnabled}
                         onChange={changeIsAiEnabled}
