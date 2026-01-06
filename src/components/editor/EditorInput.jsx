@@ -12,6 +12,13 @@ function EditorInputMessage() {
 };
 
 function EditorInputDate() {
+    const textBoxStyle = {
+        flex: 1,
+        resize: 'none',
+        color: "#ffffffff",
+        background: "#000000"
+    };
+
     return (
         <Flex vertical style={{ flex: 1 }}>
             <Tabs
@@ -34,7 +41,7 @@ function EditorInputDate() {
                 ]}
                 onChange={onChange}
             />
-            <Input.TextArea style={{ flex: 1, resize: 'none' }} placeholder="Input Date" allowClear onChange={onChange}/>
+            <Input.TextArea style={textBoxStyle} placeholder="Input Date" allowClear onChange={onChange} />
         </Flex>
     );
 }
