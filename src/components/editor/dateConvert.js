@@ -1,3 +1,5 @@
+import { rewriteText } from './aiSupport.js';
+
 export function convertText(input, lang) {
   console.log(input, lang)
   if (lang == 1) {
