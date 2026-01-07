@@ -21,7 +21,11 @@ function EditorInputMessage() {
 function EditorInputDate({ onInputChange }) {
     const [value, setValue] = useState("");
 
-    const onChange = (val) => {
+    const onTabChange = (key) => {
+        console.log(key);
+    };
+
+    const onCodeChange = (val) => {
         setValue(val);
         onInputChange(val)
     };
@@ -46,11 +50,11 @@ function EditorInputDate({ onInputChange }) {
                         disabled: true
                     },
                 ]}
-                onChange={onChange}
+                onChange={onTabChange}
             />
             <ReactCodeMirror
                 value={value}
-                onChange={onChange}
+                onChange={onCodeChange}
                 theme={xcodeLight}
                 height="240px"
                 extensions={[
