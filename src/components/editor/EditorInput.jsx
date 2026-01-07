@@ -25,9 +25,9 @@ function EditorInputDate({ onInputChange }) {
         console.log(key);
     };
 
-    const onCodeChange = (val) => {
-        setValue(val);
-        onInputChange(val)
+    const onDateChanged = (key) => {
+        setValue(key);
+        onInputChange(key);
     };
 
     return (
@@ -54,7 +54,7 @@ function EditorInputDate({ onInputChange }) {
             />
             <ReactCodeMirror
                 value={value}
-                onChange={onCodeChange}
+                onChange={onDateChanged}
                 theme={xcodeLight}
                 height="240px"
                 extensions={[
