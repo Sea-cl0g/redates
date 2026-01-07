@@ -10,7 +10,6 @@ const Desc = props => (
 
 import EditorInput from "./EditorInput";
 import EditorOutput from './EditorOutput';
-//import EditorOutput from "./EditorOutput";
 
 export default function Editor() {
   const [sizes, setSizes] = React.useState(['50%', '50%']);
