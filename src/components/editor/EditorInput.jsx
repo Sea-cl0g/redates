@@ -1,22 +1,35 @@
-import React from 'react';
+import { jsonLanguage } from "@codemirror/lang-json";
+import { yamlLanguage } from "@codemirror/lang-yaml";
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { languages } from "@codemirror/language-data";
+import { xcodeLight } from "@uiw/codemirror-theme-xcode";
+import ReactCodeMirror from "@uiw/react-codemirror";
+
+import React, { SetStateAction, useCallback, useState } from 'react';
 import { Input, Flex, Tabs, Divider } from 'antd';
 
-const onChange = key => {
-    console.log(key);
-};
-
 function EditorInputMessage() {
+    const onChange = key => {
+        console.log(key);
+    };
+
     return (
         <Input.TextArea rows={3} placeholder="Input Message" allowClear onChange={onChange} />
     );
 };
 
 function EditorInputDate() {
+    const [value, setValue] = useState("");
+
     const textBoxStyle = {
         flex: 1,
         resize: 'none',
         color: "#ffffffff",
         background: "#000000"
+    };
+
+    const onChange = (val) => {
+        setValue(val);
     };
 
     return (
@@ -25,7 +38,7 @@ function EditorInputDate() {
                 defaultActiveKey="1"
                 items={[
                     {
-                        label: 'Plain Text',
+                        label: 'Markdown',
                         key: '1',
                     },
                     {
@@ -41,7 +54,18 @@ function EditorInputDate() {
                 ]}
                 onChange={onChange}
             />
-            <Input.TextArea style={textBoxStyle} placeholder="Input Date" allowClear onChange={onChange} />
+            <ReactCodeMirror
+                value={value}
+                onChange={onChange}
+                theme={xcodeLight}
+                height="240px"
+                extensions={[
+                    markdown({
+                        base: markdownLanguage,
+                        codeLanguages: languages,
+                    }),
+                ]}
+            />
         </Flex>
     );
 }
