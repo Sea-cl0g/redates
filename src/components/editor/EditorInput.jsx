@@ -44,10 +44,12 @@ function EditorInputDate({ onInputChange }) {
                     {
                         label: 'Json',
                         key: '2',
+                        disabled: true
                     },
                     {
                         label: 'YAML',
                         key: '3',
+                        disabled: true
                     },
                 ]}
                 onChange={onTabChange}
