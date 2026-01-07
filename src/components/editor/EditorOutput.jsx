@@ -75,7 +75,7 @@ function EditorOutputFooter() {
     );
 }
 
-export default function EditorOutput() {
+export default function EditorOutput({ convertedText }) {
     const padding = 16;
     return (
         <Flex
@@ -93,7 +93,7 @@ export default function EditorOutput() {
                 gap="small"
             >
                 <EditorOutputHeader />
-                <EditorOutputMain />
+                <EditorOutputMain convertedText={convertedText}/>
             </Flex>
             <EditorOutputFooter />
         </Flex>

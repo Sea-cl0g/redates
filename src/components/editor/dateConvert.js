@@ -1,3 +1,3 @@
 export function convertText(input) {
-  return `test: ${input}`;
+  return `test`;
 }
