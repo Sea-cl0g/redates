@@ -21,5 +21,7 @@ export async function rewriteText(inputText, onUpdate) {
         result += chunk;
         onUpdate?.(result);
     }
+
     rewriter?.destroy();
+    return result;
 }
