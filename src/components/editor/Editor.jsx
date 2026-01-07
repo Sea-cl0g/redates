@@ -1,12 +1,5 @@
 import React from 'react';
 import { Button, Flex, Splitter, Switch, Typography } from 'antd';
-const Desc = props => (
-  <Flex justify="center" align="center" style={{ height: '100%' }}>
-    <Typography.Title type="secondary" level={5} style={{ whiteSpace: 'nowrap' }}>
-      {props.text}
-    </Typography.Title>
-  </Flex>
-);
 
 import EditorInput from "./EditorInput";
 import EditorOutput from './EditorOutput';
