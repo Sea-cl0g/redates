@@ -14,10 +14,6 @@ export function convertText(input, lang) {
 // ============================================================================
 // markdown
 function convertMarkdownText(input) {
-  return convertMarkdown(input);
-}
-
-function convertMarkdown(input) {
   const lines = input.split(/\r\n|\n/);
   const dict = buildSymbolDuct(lines);
   const result = [];
