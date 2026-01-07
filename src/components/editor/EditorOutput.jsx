@@ -59,7 +59,7 @@ function EditorOutputMain({ convertedText }) {
             style={outputStyle}
         >
             <Flex style={{ padding: 6 }}>
-                <Typography.Paragraph>
+                <Typography.Paragraph style={{ whiteSpace: "pre-line" }}>
                     {convertedText}
                 </Typography.Paragraph>
             </Flex>

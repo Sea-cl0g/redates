@@ -12,10 +12,9 @@ export default function Editor() {
 
   const onInputChange = (key, lang) => {
     const result = convertText(key, lang)
-    console.groupCollapsed('DateConverted!');
-    console.log("[before]")
+    console.group('DateConverted!');
     console.log(key);
-    console.log("[after]")
+    console.log("↓");
     console.log(result);
     console.groupEnd();
     setConvertedText(result);
