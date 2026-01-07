@@ -5,7 +5,7 @@ import { languages } from "@codemirror/language-data";
 import { xcodeLight } from "@uiw/codemirror-theme-xcode";
 import ReactCodeMirror from "@uiw/react-codemirror";
 
-import React, { SetStateAction, useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Input, Flex, Tabs, Divider } from 'antd';
 
 function EditorInputMessage() {
@@ -20,13 +20,6 @@ function EditorInputMessage() {
 
 function EditorInputDate() {
     const [value, setValue] = useState("");
-
-    const textBoxStyle = {
-        flex: 1,
-        resize: 'none',
-        color: "#ffffffff",
-        background: "#000000"
-    };
 
     const onChange = (val) => {
         setValue(val);
