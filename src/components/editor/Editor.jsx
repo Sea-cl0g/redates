@@ -10,8 +10,8 @@ export default function Editor() {
   const [enabled, setEnabled] = React.useState(true);
   const [convertedText, setConvertedText] = React.useState('');
 
-  const onInputChange = (key) => {
-    const result = convertText(key)
+  const onInputChange = (key, lang) => {
+    const result = convertText(key, lang)
     console.groupCollapsed('DateConverted!');
     console.log("[before]")
     console.log(key);

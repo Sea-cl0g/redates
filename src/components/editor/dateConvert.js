@@ -1,3 +1,3 @@
-export function convertText(input) {
-  return `test`;
+export function convertText(input, lang) {
+  return input+lang;
 }

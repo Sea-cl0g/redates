@@ -19,15 +19,18 @@ function EditorInputMessage() {
 };
 
 function EditorInputDate({ onInputChange }) {
-    const [value, setValue] = useState("");
+    const [dateContent, setDateContent] = useState("");
+    const [tabValue, setTabValue] = useState("");
 
     const onTabChange = (key) => {
         console.log(key);
+        setTabValue(key);
     };
 
     const onDateChanged = (key) => {
-        setValue(key);
-        onInputChange(key);
+        const langMap = {1:"markdown", 2:"json", 3:"yaml"}
+        onInputChange(key, langMap[tabValue]);
+        setDateContent(key);
     };
 
     return (
@@ -42,18 +45,16 @@ function EditorInputDate({ onInputChange }) {
                     {
                         label: 'Json',
                         key: '2',
-                        disabled: true
                     },
                     {
                         label: 'YAML',
                         key: '3',
-                        disabled: true
                     },
                 ]}
                 onChange={onTabChange}
             />
             <ReactCodeMirror
-                value={value}
+                value={dateContent}
                 onChange={onDateChanged}
                 theme={xcodeLight}
                 height="240px"
