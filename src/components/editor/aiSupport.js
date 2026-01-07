@@ -10,7 +10,6 @@ export async function rewriteText(inputText, onUpdate) {
         throw new Error('Rewriter API not supported');
     }
 
-    let rewriter;
     let result = '';
 
     const prompt = (inputText, { context: options.sharedContext, })
