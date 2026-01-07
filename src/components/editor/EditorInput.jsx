@@ -18,11 +18,12 @@ function EditorInputMessage() {
     );
 };
 
-function EditorInputDate() {
+function EditorInputDate({ onInputChange }) {
     const [value, setValue] = useState("");
 
     const onChange = (val) => {
         setValue(val);
+        onInputChange(val)
     };
 
     return (
@@ -64,7 +65,7 @@ function EditorInputDate() {
 }
 
 
-export default function EditorInput() {
+export default function EditorInput({ onInputChange }) {
     const padding = 16;
     return (
         <Flex
@@ -77,7 +78,7 @@ export default function EditorInput() {
         >
             <EditorInputMessage />
             <Divider />
-            <EditorInputDate />
+            <EditorInputDate onInputChange={onInputChange} />
         </Flex>
     );
 };

@@ -46,7 +46,7 @@ function EditorOutputHeader() {
     );
 }
 
-function EditorOutputMain() {
+function EditorOutputMain({ convertedText }) {
     const outputStyle = {
         flex: 1,
         height: `100%`,
@@ -60,7 +60,7 @@ function EditorOutputMain() {
         >
             <Flex style={{ padding: 6 }}>
                 <Typography.Paragraph>
-                    この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字の大きさ、量、字間、行間等を確認するために入れています。この文章はダミーです。文字
+                    {convertedText}
                 </Typography.Paragraph>
             </Flex>
         </Flex>
