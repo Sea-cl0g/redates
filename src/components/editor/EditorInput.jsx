@@ -20,7 +20,7 @@ function EditorInputMessage() {
 
 function EditorInputDate({ onInputChange }) {
     const [dateContent, setDateContent] = useState("");
-    const [tabValue, setTabValue] = useState("");
+    const [tabValue, setTabValue] = useState("1");
 
     const onTabChange = (key) => {
         console.log(key);
@@ -36,7 +36,7 @@ function EditorInputDate({ onInputChange }) {
     return (
         <Flex vertical style={{ flex: 1 }}>
             <Tabs
-                defaultActiveKey="1"
+                defaultActiveKey={tabValue}
                 items={[
                     {
                         label: 'Markdown',
