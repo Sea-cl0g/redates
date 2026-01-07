@@ -28,8 +28,7 @@ function EditorInputDate({ onInputChange }) {
     };
 
     const onDateChanged = (key) => {
-        const langMap = {1:"markdown", 2:"json", 3:"yaml"}
-        onInputChange(key, langMap[tabValue]);
+        onInputChange(key, tabValue);
         setDateContent(key);
     };
 
