@@ -10,14 +10,16 @@ export async function rewriteText(inputText, onUpdate) {
         throw new Error('Rewriter API not supported');
     }
 
+    let rewriter;
     let result = '';
+    rewriter = await self.Rewriter.create(options);
+    const stream = await rewriter.rewriteStreaming(inputText, {
+        context: options.sharedContext,
+    });
 
-    const prompt = (inputText, { context: options.sharedContext, })
-
-    let rewriter = await self.Rewriter.create(options);
-    const stream = await rewriter.rewriteStreaming(prompt);
-
+    
     for await (const chunk of stream) {
+        //console.log(chunk);
         result += chunk;
         onUpdate?.(result);
     }
