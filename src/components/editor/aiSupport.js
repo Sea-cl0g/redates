@@ -1,4 +1,4 @@
-const prompt = {
+const options = {
     tone: 'more-formal',
     length: 'as-is',
     format: 'as-is',
@@ -15,7 +15,7 @@ export async function rewriteText(inputText, onUpdate) {
 
     const prompt = (inputText, { context: options.sharedContext, })
 
-    rewriter = await self.Rewriter.create(options);
+    let rewriter = await self.Rewriter.create(options);
     const stream = await rewriter.rewriteStreaming(prompt);
 
     for await (const chunk of stream) {
