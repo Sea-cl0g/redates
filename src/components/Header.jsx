@@ -14,8 +14,9 @@ export default function Header() {
               shape="circle"
               icon={<QuestionCircleOutlined />}
               size="large"
-              href="https://github.com/Sea-cl0g/redates/tree/main"
+              href=""
               target="_blank"
+              disabled="true"
             />
           </Tooltip>
           <Tooltip title="GitHub">
