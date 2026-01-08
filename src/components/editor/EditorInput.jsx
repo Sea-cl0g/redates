@@ -12,7 +12,6 @@ function EditorInputMessage() {
     const onChange = key => {
         console.log(key);
     };
-
     return (
         <Input.TextArea rows={3} placeholder="Input Message" allowClear onChange={onChange} />
     );
@@ -23,7 +22,6 @@ function EditorInputDate({ onInputChange }) {
     const [tabValue, setTabValue] = useState("1");
 
     const onTabChange = (key) => {
-        console.log(key);
         setTabValue(key);
     };
 
