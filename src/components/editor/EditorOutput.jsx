@@ -53,7 +53,7 @@ function EditorOutputFooter() {
     );
 }
 
-export default function EditorOutput({ convertedText, inputText, inputLang }) {
+export default function EditorOutput({ convertedText, inputMessage, inputText, inputLang }) {
     const [isAiEnabled, setIsAiEnabled] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const [aiText, setAiText] = useState('');
@@ -68,6 +68,7 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
             const { convertTextWithAI } = await import('./dateConvert');
 
             await convertTextWithAI(
+                inputMessage,
                 inputText,
                 inputLang,
                 (currentText) => setAiText(currentText)
