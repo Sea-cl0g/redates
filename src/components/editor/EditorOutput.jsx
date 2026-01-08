@@ -77,6 +77,9 @@ function EditorOutputFooter() {
 
 export default function EditorOutput({ convertedText, inputText, inputLang }) {
     const padding = 16;
+    const handleGenerate = async () => {
+        if (!inputText) return;
+    };
     return (
         <Flex
             vertical
@@ -92,8 +95,10 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
                 style={{ flex: 1 }}
                 gap="small"
             >
-                <EditorOutputHeader />
-                <EditorOutputMain convertedText={convertedText}/>
+                <EditorOutputHeader
+                    onGenerate={handleGenerate}
+                />
+                <EditorOutputMain convertedText={displayText} />
             </Flex>
             <EditorOutputFooter />
         </Flex>
