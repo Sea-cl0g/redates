@@ -41,12 +41,12 @@ function convertMarkdownText(date) {
     }
     i++;
   }
-
-  return result.join("\n");
+  const dates = result.join("\n");
+  return message ? `${message}\n\n${dates}` : dates;
 }
 
-async function convertMarkdownTextWithAI(date, onUpdate) {
-  const basicResult = convertMarkdownText(date);
+async function convertMarkdownTextWithAI(message, date, onUpdate) {
+  const basicResult = convertMarkdownText(message, date);
 
   const enhancedResult = await rewriteText(
     basicResult,
