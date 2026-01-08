@@ -1,7 +1,7 @@
 import React from 'react';
 import { GithubOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Flex, Typography, Tooltip } from 'antd';
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title } = Typography;
 
 export default function Header() {
   return (
