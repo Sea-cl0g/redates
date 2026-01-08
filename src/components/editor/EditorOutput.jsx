@@ -64,14 +64,19 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
 
         setIsGenerating(true);
         setAiText('');
+        try {
+            const { convertTextWithAI } = await import('./dateConvert');
 
-        const { convertTextWithAI } = await import('./dateConvert');
-        await convertTextWithAI(
-            inputText,
-            inputLang,
-            (currentText) => setAiText(currentText)
-        );
-        setIsGenerating(false);
+            await convertTextWithAI(
+                inputText,
+                inputLang,
+                (currentText) => setAiText(currentText)
+            );
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsGenerating(false);
+        }
     };
 
     const displayText = isAiEnabled && aiText ? aiText : convertedText;
