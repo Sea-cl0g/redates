@@ -10,10 +10,10 @@ export default function App() {
       vertical
       justify="space-between"
       align="stretch"
-      style={{ height: '100vh' }}
+      style={{ height: '95vh', overflow: 'hidden' }}
     >
       <Header />
-      <Main style={{ flex: 1 }} />
+      <Main />
       <Footer />
     </Flex>
   );
