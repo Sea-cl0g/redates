@@ -10,7 +10,7 @@ import { Input, Flex, Tabs, Divider } from 'antd';
 
 function EditorInputMessage({ onMessageChange }) {
     const onChange = key => {
-        onMessageChange(key);
+        onMessageChange(key.target.value);
     };
     return (
         <Input.TextArea rows={3} placeholder="Input Message" allowClear onChange={onChange} />
