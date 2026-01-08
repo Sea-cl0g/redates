@@ -1,9 +1,9 @@
 import { rewriteText } from './aiSupport.js';
 
-export function convertText(input, lang) {
-  console.log(input, lang)
+export function convertText(date, lang) {
+  console.log(date, lang)
   if (lang == 1) {
-    return convertMarkdownText(input);
+    return convertMarkdownText(date);
   } else if (lang == 2) {
     return;
   } else if (lang == 3) {
@@ -11,9 +11,9 @@ export function convertText(input, lang) {
   }
 }
 
-export async function convertTextWithAI(input, lang, onUpdate) {
+export async function convertTextWithAI(date, lang, onUpdate) {
   if (lang == 1) {
-    return await convertMarkdownTextWithAI(input, onUpdate);
+    return await convertMarkdownTextWithAI(date, onUpdate);
   } else if (lang == 2) {
     return;
   } else if (lang == 3) {
@@ -23,8 +23,8 @@ export async function convertTextWithAI(input, lang, onUpdate) {
 
 // ============================================================================
 // markdown
-function convertMarkdownText(input) {
-  const lines = input.split(/\r\n|\n/);
+function convertMarkdownText(date) {
+  const lines = date.split(/\r\n|\n/);
   const dict = buildSymbolDuct(lines);
   const result = [];
 
@@ -46,8 +46,8 @@ function convertMarkdownText(input) {
   return result.join("\n");
 }
 
-async function convertMarkdownTextWithAI(input, onUpdate) {
-  const basicResult = convertMarkdownText(input);
+async function convertMarkdownTextWithAI(date, onUpdate) {
+  const basicResult = convertMarkdownText(date);
 
   const enhancedResult = await rewriteText(
     basicResult,
