@@ -9,8 +9,12 @@ export default function Editor() {
   const [sizes, setSizes] = React.useState(['50%', '50%']);
   const [enabled, setEnabled] = React.useState(true);
   const [convertedText, setConvertedText] = React.useState('');
+  const [inputText, setInputText] = React.useState('');
+  const [inputLang, setInputLang] = React.useState('1');
 
   const onInputChange = (key, lang) => {
+    setInputText(key);
+    setInputLang(lang);
     const result = convertText(key, lang)
     console.group('DateConverted!');
     console.log(key);
@@ -30,7 +34,11 @@ export default function Editor() {
           <EditorInput onInputChange={onInputChange} />
         </Splitter.Panel>
         <Splitter.Panel size={sizes[1]}>
-          <EditorOutput convertedText={convertedText} />
+          <EditorOutput
+            convertedText={convertedText}
+            inputText={inputText}
+            inputLang={inputLang}
+          />
         </Splitter.Panel>
       </Splitter>
       <Flex gap="middle" justify="space-between">

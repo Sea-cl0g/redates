@@ -75,7 +75,7 @@ function EditorOutputFooter() {
     );
 }
 
-export default function EditorOutput({ convertedText }) {
+export default function EditorOutput({ convertedText, inputText, inputLang }) {
     const padding = 16;
     return (
         <Flex
