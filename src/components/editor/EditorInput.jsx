@@ -125,7 +125,7 @@ function EditorInputDate({ onInputChange }) {
                 value={dateContent}
                 onChange={onDateChanged}
                 theme={xcodeLight}
-                height="240px"
+                height="100%"
                 extensions={[
                     markdown({
                         base: markdownLanguage,
