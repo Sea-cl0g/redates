@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Flex, Splitter, Switch, Typography } from 'antd';
+const { Text } = Typography;
 
 import EditorInput from "./EditorInput";
 import EditorOutput from './EditorOutput';
@@ -22,10 +23,10 @@ export default function Editor() {
   };
 
   return (
-    <Flex vertical gap="middle">
+    <Flex vertical gap="middle"  style={{flex: 1}}>
       <Splitter
         onResize={setSizes}
-        style={{ height: 500, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
+        style={{ flex: 1, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
       >
         <Splitter.Panel size={sizes[0]} resizable={enabled}>
           <EditorInput onInputChange={onInputChange} />
@@ -46,6 +47,7 @@ export default function Editor() {
           checkedChildren="Enabled"
           unCheckedChildren="Disabled"
         />
+        <Text type="secondary">左上にショートメッセージ、その下に日程を記述するとそれっぽいメッセージに変換されます。</Text>
         <Button onClick={() => setSizes(['50%', '50%'])}>Reset</Button>
       </Flex>
     </Flex>
