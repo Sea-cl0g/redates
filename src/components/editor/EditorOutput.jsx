@@ -54,6 +54,7 @@ function EditorOutputFooter() {
                     icon={<CopyOutlined />}
                     size="large"
                     type="dashed"
+                    disabled="true"
                 />
             </Tooltip>
             <Tooltip title="Download">
@@ -62,6 +63,7 @@ function EditorOutputFooter() {
                     icon={<DownloadOutlined />}
                     size="large"
                     type="primary"
+                    disabled="true"
                 />
             </Tooltip>
         </Flex>
