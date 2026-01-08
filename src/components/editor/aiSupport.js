@@ -19,7 +19,6 @@ export async function rewriteText(inputText, onUpdate) {
 
     
     for await (const chunk of stream) {
-        //console.log(chunk);
         result += chunk;
         onUpdate?.(result);
     }

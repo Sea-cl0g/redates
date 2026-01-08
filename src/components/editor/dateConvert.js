@@ -1,7 +1,6 @@
 import { rewriteText } from './aiSupport.js';
 
 export function convertText(date, lang) {
-  console.log(date, lang)
   if (lang == 1) {
     return convertMarkdownText(date);
   } else if (lang == 2) {
@@ -42,7 +41,6 @@ function convertMarkdownText(date) {
     i++;
   }
 
-  console.log(result)
   return result.join("\n");
 }
 
