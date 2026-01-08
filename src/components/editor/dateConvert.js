@@ -11,6 +11,16 @@ export function convertText(input, lang) {
   }
 }
 
+export async function convertTextWithAI(input, lang, onUpdate) {
+  if (lang == 1) {
+    return await convertMarkdownTextWithAI(input, onUpdate);
+  } else if (lang == 2) {
+    return;
+  } else if (lang == 3) {
+    return;
+  }
+}
+
 // ============================================================================
 // markdown
 function convertMarkdownText(input) {
@@ -34,6 +44,17 @@ function convertMarkdownText(input) {
 
   console.log(result)
   return result.join("\n");
+}
+
+async function convertMarkdownTextWithAI(input, onUpdate) {
+  const basicResult = convertMarkdownText(input);
+
+  const enhancedResult = await rewriteText(
+    basicResult,
+    onUpdate
+  );
+
+  return enhancedResult;
 }
 
 function buildSymbolDuct(lines) {
