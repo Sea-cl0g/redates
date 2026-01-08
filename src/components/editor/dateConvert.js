@@ -34,6 +34,7 @@ function convertMarkdownText(date) {
   while (lines[i] && lines[i].startsWith("- ")) {
     const raw = lines[i].slice(2).trim();
     const parsed = parseDateLine(raw, dict);
+    console.log(parsed)
 
     if (parsed != null) {
       result.push(formatDate(parsed));
@@ -84,12 +85,15 @@ function finfDateList(lines) {
 }
 
 function parseDateLine(line, dict) {
-  const match = line.match(/^(\d{1,2})\/(\d{1,2})\s+(.+)$/);
+  const match = line.match(/^(\d{1,2})\/(\d{1,2})(?:\s+(.+))?$/);
   if (!match) return null;
 
   const month = Number(match[1]);
   const day = Number(match[2]);
-  let comment = match[3].trim();
+  let comment;
+  if(match[3]){
+    comment = match[3].trim();
+  }
 
   if (comment in dict) {
     comment = dict[comment]?.trim() ?? "";
@@ -99,7 +103,8 @@ function parseDateLine(line, dict) {
 }
 
 function formatDate({ month, day, comment }) {
-  return `- ${month}月${day}日（${comment}）`;
+  comment = !comment ? "" : `（${(comment)}）`
+  return `- ${month}月${day}日${(comment)}`;
 }
 
 // ============================================================================
