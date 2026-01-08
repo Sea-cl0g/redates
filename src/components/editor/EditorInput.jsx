@@ -8,9 +8,9 @@ import ReactCodeMirror from "@uiw/react-codemirror";
 import React, { useState } from 'react';
 import { Input, Flex, Tabs, Divider } from 'antd';
 
-function EditorInputMessage() {
+function EditorInputMessage({ onMessageChange }) {
     const onChange = key => {
-        console.log(key);
+        onMessageChange(key);
     };
     return (
         <Input.TextArea rows={3} placeholder="Input Message" allowClear onChange={onChange} />
@@ -70,6 +70,20 @@ function EditorInputDate({ onInputChange }) {
 
 
 export default function EditorInput({ onInputChange }) {
+    const [message, setMessage] = useState("");
+    const [dateContent, setDateContent] = useState("");
+    const [format, setFormat] = useState("1");
+
+    const handleMessageChange = (msg) => {
+        setMessage(msg);
+        onInputChange(msg, dateContent, format);
+    };
+
+    const handleDateChange = (date, fmt) => {
+        setDateContent(date);
+        setFormat(fmt);
+        onInputChange(message, date, fmt);
+    };
     const padding = 16;
     return (
         <Flex
@@ -80,9 +94,9 @@ export default function EditorInput({ onInputChange }) {
                 padding: `${padding}px`,
             }}
         >
-            <EditorInputMessage />
+            <EditorInputMessage onMessageChange={handleMessageChange} />
             <Divider />
-            <EditorInputDate onInputChange={onInputChange} />
+            <EditorInputDate onInputChange={handleDateChange} />
         </Flex>
     );
 };
