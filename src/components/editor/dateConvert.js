@@ -63,7 +63,6 @@ function buildSymbolDuct(lines) {
     if (!match) continue;
 
     const key = match[1];
-    if (key === "*") continue;
     if (key === "date") continue;
     dict[key] = lines[i + 1] ?? "";
   }
