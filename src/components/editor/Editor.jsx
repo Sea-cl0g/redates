@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Flex, Splitter, Switch, Typography } from 'antd';
+const { Text } = Typography;
 
 import EditorInput from "./EditorInput";
 import EditorOutput from './EditorOutput';
@@ -46,6 +47,7 @@ export default function Editor() {
           checkedChildren="Enabled"
           unCheckedChildren="Disabled"
         />
+        <Text type="secondary">左上にショートメッセージ、その下に日程を記述するとそれっぽいメッセージに変換されます。</Text>
         <Button onClick={() => setSizes(['50%', '50%'])}>Reset</Button>
       </Flex>
     </Flex>
