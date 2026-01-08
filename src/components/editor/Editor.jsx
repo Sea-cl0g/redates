@@ -9,13 +9,15 @@ export default function Editor() {
   const [sizes, setSizes] = React.useState(['50%', '50%']);
   const [enabled, setEnabled] = React.useState(true);
   const [convertedText, setConvertedText] = React.useState('');
+  const [inputMessage, setInputMessage] = React.useState('');
   const [inputText, setInputText] = React.useState('');
   const [inputLang, setInputLang] = React.useState('1');
 
-  const onInputChange = (date, lang) => {
+  const onInputChange = (message, date, lang) => {
+    setInputMessage(message);
     setInputText(date);
     setInputLang(lang);
-    const result = convertText(date, lang)
+    const result = convertText(message, date, lang)
     setConvertedText(result);
   };
 
@@ -31,6 +33,7 @@ export default function Editor() {
         <Splitter.Panel size={sizes[1]}>
           <EditorOutput
             convertedText={convertedText}
+            inputMessage={inputMessage}
             inputText={inputText}
             inputLang={inputLang}
           />

@@ -53,7 +53,7 @@ function EditorOutputFooter() {
     );
 }
 
-export default function EditorOutput({ convertedText, inputText, inputLang }) {
+export default function EditorOutput({ convertedText, inputMessage, inputText, inputLang }) {
     const [isAiEnabled, setIsAiEnabled] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const [aiText, setAiText] = useState('');
@@ -64,14 +64,20 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
 
         setIsGenerating(true);
         setAiText('');
+        try {
+            const { convertTextWithAI } = await import('./dateConvert');
 
-        const { convertTextWithAI } = await import('./dateConvert');
-        await convertTextWithAI(
-            inputText,
-            inputLang,
-            (currentText) => setAiText(currentText)
-        );
-        setIsGenerating(false);
+            await convertTextWithAI(
+                inputMessage,
+                inputText,
+                inputLang,
+                (currentText) => setAiText(currentText)
+            );
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsGenerating(false);
+        }
     };
 
     const displayText = isAiEnabled && aiText ? aiText : convertedText;

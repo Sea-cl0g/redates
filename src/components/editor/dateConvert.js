@@ -1,8 +1,8 @@
 import { rewriteText } from './aiSupport.js';
 
-export function convertText(date, lang) {
+export function convertText(message, date, lang) {
   if (lang == 1) {
-    return convertMarkdownText(date);
+    return convertMarkdownText(message, date);
   } else if (lang == 2) {
     return;
   } else if (lang == 3) {
@@ -10,9 +10,9 @@ export function convertText(date, lang) {
   }
 }
 
-export async function convertTextWithAI(date, lang, onUpdate) {
+export async function convertTextWithAI(message, date, lang, onUpdate) {
   if (lang == 1) {
-    return await convertMarkdownTextWithAI(date, onUpdate);
+    return await convertMarkdownTextWithAI(message, date, onUpdate);
   } else if (lang == 2) {
     return;
   } else if (lang == 3) {
@@ -22,7 +22,7 @@ export async function convertTextWithAI(date, lang, onUpdate) {
 
 // ============================================================================
 // markdown
-function convertMarkdownText(date) {
+function convertMarkdownText(message, date) {
   const lines = date.split(/\r\n|\n/);
   const dict = buildSymbolDuct(lines);
   const result = [];
@@ -41,12 +41,12 @@ function convertMarkdownText(date) {
     }
     i++;
   }
-
-  return result.join("\n");
+  const dates = result.join("\n");
+  return message ? `${message}\n\n${dates}` : dates;
 }
 
-async function convertMarkdownTextWithAI(date, onUpdate) {
-  const basicResult = convertMarkdownText(date);
+async function convertMarkdownTextWithAI(message, date, onUpdate) {
+  const basicResult = convertMarkdownText(message, date);
 
   const enhancedResult = await rewriteText(
     basicResult,

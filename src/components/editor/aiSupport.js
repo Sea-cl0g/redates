@@ -12,17 +12,23 @@ export async function rewriteText(inputText, onUpdate) {
 
     let rewriter;
     let result = '';
-    rewriter = await self.Rewriter.create(options);
-    const stream = await rewriter.rewriteStreaming(inputText, {
-        context: options.sharedContext,
-    });
+    try {
+        rewriter = await self.Rewriter.create(options);
 
-    
-    for await (const chunk of stream) {
-        result += chunk;
-        onUpdate?.(result);
+        const stream = await rewriter.rewriteStreaming(inputText, {
+            context: options.sharedContext,
+        });
+
+        for await (const chunk of stream) {
+            result += chunk;
+            onUpdate?.(result);
+        }
+
+        return result;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    } finally {
+        rewriter?.destroy();
     }
-
-    rewriter?.destroy();
-    return result;
 }
