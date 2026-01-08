@@ -1,7 +1,7 @@
 import React from 'react';
 import { GithubOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Flex, Typography, Tooltip } from 'antd';
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title } = Typography;
 
 export default function Header() {
   return (
@@ -14,8 +14,9 @@ export default function Header() {
               shape="circle"
               icon={<QuestionCircleOutlined />}
               size="large"
-              href="https://github.com/Sea-cl0g/redates/tree/main"
+              href=""
               target="_blank"
+              disabled="true"
             />
           </Tooltip>
           <Tooltip title="GitHub">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
-import { Flex, Switch, Typography, Button, Divider } from 'antd';
-const { Title, Paragraph, Text, Link } = Typography;
+import { DownloadOutlined, CopyOutlined } from '@ant-design/icons';
+import { Flex, Switch, Typography, Button, Divider, Tooltip } from 'antd';
+const { Text } = Typography;
 
 function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
     return (
@@ -47,8 +47,25 @@ function EditorOutputMain({ convertedText }) {
 
 function EditorOutputFooter() {
     return (
-        <Flex>
-            <p>test</p>
+        <Flex justify="flex-end" gap="small">
+            <Tooltip title="Copy">
+                <Button
+                    shape="circle"
+                    icon={<CopyOutlined />}
+                    size="large"
+                    type="dashed"
+                    disabled="true"
+                />
+            </Tooltip>
+            <Tooltip title="Download">
+                <Button
+                    shape="circle"
+                    icon={<DownloadOutlined />}
+                    size="large"
+                    type="primary"
+                    disabled="true"
+                />
+            </Tooltip>
         </Flex>
     );
 }
@@ -89,6 +106,7 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
                 height: `calc(100% - ${padding * 2}px)`,
                 padding: `${padding}px`,
             }}
+            gap="small"
         >
             <Flex
                 vertical
