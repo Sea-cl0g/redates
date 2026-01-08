@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <header>
       <Typography>
-        <Title>Re:Dates</Title>
+        <Title>Re:dates</Title>
       </Typography>
     </header>
   );
