@@ -77,7 +77,7 @@ function finfDateList(lines) {
     if (!match) continue;
 
     const key = match[1];
-    if (key === "dates") {
+    if (key.toLowerCase() === "date" || key.toLowerCase() === "dates") {
       return i;
     }
   }
@@ -91,7 +91,7 @@ function parseDateLine(line, dict) {
   const month = Number(match[1]);
   const day = Number(match[2]);
   let comment;
-  if(match[3]){
+  if (match[3]) {
     comment = match[3].trim();
   }
 
