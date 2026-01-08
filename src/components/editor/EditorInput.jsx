@@ -18,7 +18,11 @@ function EditorInputMessage({ onMessageChange }) {
 };
 
 function EditorInputDate({ onInputChange }) {
-    const [dateContent, setDateContent] = useState("");
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+    const defaultVal = `# date\n- ${month}/${date+1} 10:00~12:00\n- ${month}/${date+2} @\n- ${month}/${date+3} @\n\n# *\n終日`
+    const [dateContent, setDateContent] = useState(defaultVal);
     const [tabValue, setTabValue] = useState("1");
 
     const onTabChange = (key) => {
