@@ -22,7 +22,7 @@ export async function convertTextWithAI(message, date, lang, onUpdate) {
 
 // ============================================================================
 // markdown
-function convertMarkdownText(date) {
+function convertMarkdownText(message, date) {
   const lines = date.split(/\r\n|\n/);
   const dict = buildSymbolDuct(lines);
   const result = [];
