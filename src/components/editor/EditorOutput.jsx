@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
 import { Flex, Switch, Typography, Button, Divider } from 'antd';
-const { Title, Paragraph, Text, Link } = Typography;
+const { Text } = Typography;
 
 function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
     return (
