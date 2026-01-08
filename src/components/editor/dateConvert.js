@@ -34,7 +34,6 @@ function convertMarkdownText(message, date) {
   while (lines[i] && lines[i].startsWith("- ")) {
     const raw = lines[i].slice(2).trim();
     const parsed = parseDateLine(raw, dict);
-    console.log(parsed)
 
     if (parsed != null) {
       result.push(formatDate(parsed));
