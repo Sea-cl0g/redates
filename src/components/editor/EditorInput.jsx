@@ -20,10 +20,22 @@ function EditorInputMessage({ onMessageChange }) {
 };
 
 function EditorInputDate({ onInputChange }) {
+    const getNextDate = (month, day) => {
+        const currentYear = new Date().getFullYear();
+        const currentDate = new Date(currentYear, month - 1, day);
+        currentDate.setDate(currentDate.getDate() + 1);
+        return {
+            month: currentDate.getMonth() + 1,
+            day: currentDate.getDate()
+        };
+    };
     const today = new Date();
     const month = today.getMonth() + 1;
     const date = today.getDate();
-    const defaultVal = `# date\n- ${month}/${date+1} 10:00~12:00\n- ${month}/${date+2} @\n- ${month}/${date+3} @\n\n# *\n終日`
+    const nextDate1 = getNextDate(month, date);
+    const nextDate2 = getNextDate(nextDate1.month, nextDate1.day);
+    const nextDate3 = getNextDate(nextDate2.month, nextDate2.day);
+    const defaultVal = `# date\n- ${nextDate1.month}/${nextDate1.day} 10:00~12:00\n- ${nextDate2.month}/${nextDate2.day} @\n- ${nextDate3.month}/${nextDate3.day} @\n\n# *\n終日`;
     const [dateContent, setDateContent] = useState(defaultVal);
     const [tabValue, setTabValue] = useState("1");
 
