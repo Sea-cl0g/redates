@@ -51,7 +51,7 @@ function EditorInputDate({ onInputChange }) {
     const nextDate1 = getNextDate(month, date);
     const nextDate2 = getNextDate(nextDate1.month, nextDate1.day);
     const nextDate3 = getNextDate(nextDate2.month, nextDate2.day);
-    const defaultVal = `# date\n- ${nextDate1.month}/${nextDate1.day} 10:00~12:00\n- ${nextDate2.month}/${nextDate2.day} @\n- ${nextDate3.month}/${nextDate3.day} @\n\n# *\n終日`;
+    const defaultVal = `# date\n- ${nextDate1.month}/${nextDate1.day} 10:00~12:00\n- ${nextDate2.month}/${nextDate2.day} *\n- ${nextDate3.month}/${nextDate3.day} *\n\n# *\n終日`;
     const [dateContent, setDateContent] = useState(defaultVal);
     const [tabValue, setTabValue] = useState("1");
 
