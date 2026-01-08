@@ -3,7 +3,7 @@ import { PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
 import { Flex, Switch, Typography, Button, Divider } from 'antd';
 const { Title, Paragraph, Text, Link } = Typography;
 
-function EditorOutputHeader({ onGenerate, isGenerating }) {
+function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
@@ -11,7 +11,7 @@ function EditorOutputHeader({ onGenerate, isGenerating }) {
                 <Divider orientation="vertical" />
                 <Switch
                     checked={isAiEnabled}
-                    onChange={changeIsAiEnabled}
+                    onChange={setIsAiEnabled}
                     checkedChildren="ON"
                     unCheckedChildren="OFF"
                 />
@@ -53,6 +53,7 @@ function EditorOutputFooter() {
 }
 
 export default function EditorOutput({ convertedText, inputText, inputLang }) {
+    const [isAiEnabled, setIsAiEnabled] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const [aiText, setAiText] = useState('');
     const padding = 16;
@@ -69,7 +70,6 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
             inputLang,
             (currentText) => setAiText(currentText)
         );
-        console.log(aiText)
         setIsGenerating(false);
     };
 
@@ -90,6 +90,8 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
                 gap="small"
             >
                 <EditorOutputHeader
+                    isAiEnabled={isAiEnabled}
+                    setIsAiEnabled={setIsAiEnabled}
                     onGenerate={handleGenerate}
                     isGenerating={isGenerating}
                 />
