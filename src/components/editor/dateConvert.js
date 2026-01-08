@@ -106,7 +106,8 @@ function parseDateLine(line, dict) {
 }
 
 function formatDate({ month, day, comment }) {
-  return `- ${month}月${day}日（${comment}）`;
+  comment = !comment ? "" : `（${(comment)}）`
+  return `- ${month}月${day}日${(comment)}`;
 }
 
 // ============================================================================
