@@ -77,7 +77,7 @@ function finfDateList(lines) {
     if (!match) continue;
 
     const key = match[1];
-    if (key === "date") {
+    if (key === "dates") {
       return i;
     }
   }
