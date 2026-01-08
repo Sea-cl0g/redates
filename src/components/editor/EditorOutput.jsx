@@ -29,6 +29,7 @@ function EditorOutputMain({ convertedText }) {
         height: `100%`,
         borderRadius: 6,
         border: '1px solid #d9d9d9',
+        overflow: 'auto',
     }
 
     return (
@@ -57,7 +58,7 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
     const [isGenerating, setIsGenerating] = useState(false);
     const [aiText, setAiText] = useState('');
     const padding = 16;
-    
+
     const handleGenerate = async () => {
         if (!inputText) return;
 
@@ -86,7 +87,7 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
             <Flex
                 vertical
                 justify="flex-start"
-                style={{ flex: 1 }}
+                style={{ flex: 1, minHeight: 0 }}
                 gap="small"
             >
                 <EditorOutputHeader
