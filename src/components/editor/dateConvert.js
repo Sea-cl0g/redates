@@ -1,8 +1,8 @@
 import { rewriteText } from './aiSupport.js';
 
-export function convertText(date, lang) {
+export function convertText(message, date, lang) {
   if (lang == 1) {
-    return convertMarkdownText(date);
+    return convertMarkdownText(message, date);
   } else if (lang == 2) {
     return;
   } else if (lang == 3) {
@@ -10,9 +10,9 @@ export function convertText(date, lang) {
   }
 }
 
-export async function convertTextWithAI(date, lang, onUpdate) {
+export async function convertTextWithAI(message, date, lang, onUpdate) {
   if (lang == 1) {
-    return await convertMarkdownTextWithAI(date, onUpdate);
+    return await convertMarkdownTextWithAI(message, date, onUpdate);
   } else if (lang == 2) {
     return;
   } else if (lang == 3) {
