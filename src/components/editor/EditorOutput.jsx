@@ -56,6 +56,7 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
     const [isGenerating, setIsGenerating] = useState(false);
     const [aiText, setAiText] = useState('');
     const padding = 16;
+    
     const handleGenerate = async () => {
         if (!inputText) return;
 
@@ -63,6 +64,12 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
         setAiText('');
 
         const { convertTextWithAI } = await import('./dateConvert');
+        await convertTextWithAI(
+            inputText,
+            inputLang,
+            (currentText) => setAiText(currentText)
+        );
+        console.log(aiText)
         setIsGenerating(false);
     };
 
