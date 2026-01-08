@@ -3,30 +3,7 @@ import { PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
 import { Flex, Switch, Typography, Button, Divider } from 'antd';
 const { Title, Paragraph, Text, Link } = Typography;
 
-function EditorOutputHeader() {
-    const [isAiEnabled, setIsAiEnabled] = useState(false);
-    const changeIsAiEnabled = value => {
-        setIsAiEnabled(value);
-    };
-
-
-    const [loadings, setLoadings] = useState([]);
-    const enterLoading = index => {
-        console.log('Start loading:', index);
-        setLoadings(prevLoadings => {
-            const newLoadings = [...prevLoadings];
-            newLoadings[index] = true;
-            return newLoadings;
-        });
-        setTimeout(() => {
-            setLoadings(prevLoadings => {
-                const newLoadings = [...prevLoadings];
-                newLoadings[index] = false;
-                return newLoadings;
-            });
-        }, 3000);
-    };
-
+function EditorOutputHeader({ onGenerate, isGenerating }) {
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
@@ -39,7 +16,7 @@ function EditorOutputHeader() {
                     unCheckedChildren="OFF"
                 />
             </Flex>
-            <Button type="primary" disabled={!isAiEnabled} loading={loadings[0]} onClick={() => enterLoading(0)}>
+            <Button type="primary" disabled={!isAiEnabled} loading={isGenerating} onClick={onGenerate} >
                 Generate
             </Button>
         </Flex>
@@ -76,10 +53,20 @@ function EditorOutputFooter() {
 }
 
 export default function EditorOutput({ convertedText, inputText, inputLang }) {
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [aiText, setAiText] = useState('');
     const padding = 16;
     const handleGenerate = async () => {
         if (!inputText) return;
+
+        setIsGenerating(true);
+        setAiText('');
+
+        const { convertTextWithAI } = await import('./dateConvert');
+        setIsGenerating(false);
     };
+
+    const displayText = isAiEnabled && aiText ? aiText : convertedText;
     return (
         <Flex
             vertical
@@ -97,6 +84,7 @@ export default function EditorOutput({ convertedText, inputText, inputLang }) {
             >
                 <EditorOutputHeader
                     onGenerate={handleGenerate}
+                    isGenerating={isGenerating}
                 />
                 <EditorOutputMain convertedText={displayText} />
             </Flex>
