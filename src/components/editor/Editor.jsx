@@ -12,15 +12,10 @@ export default function Editor() {
   const [inputText, setInputText] = React.useState('');
   const [inputLang, setInputLang] = React.useState('1');
 
-  const onInputChange = (key, lang) => {
-    setInputText(key);
+  const onInputChange = (date, lang) => {
+    setInputText(date);
     setInputLang(lang);
-    const result = convertText(key, lang)
-    console.group('DateConverted!');
-    console.log(key);
-    console.log("↓");
-    console.log(result);
-    console.groupEnd();
+    const result = convertText(date, lang)
     setConvertedText(result);
   };
 

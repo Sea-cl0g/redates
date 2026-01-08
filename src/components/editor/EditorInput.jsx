@@ -25,9 +25,9 @@ function EditorInputDate({ onInputChange }) {
         setTabValue(key);
     };
 
-    const onDateChanged = (key) => {
-        onInputChange(key, tabValue);
-        setDateContent(key);
+    const onDateChanged = (date) => {
+        onInputChange(date, tabValue);
+        setDateContent(date);
     };
 
     return (
