@@ -3,9 +3,11 @@ import { yamlLanguage } from "@codemirror/lang-yaml";
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from "@codemirror/language-data";
 import { xcodeLight } from "@uiw/codemirror-theme-xcode";
+import { keymap } from "@codemirror/view";
+import { Prec } from '@codemirror/state';
 import ReactCodeMirror from "@uiw/react-codemirror";
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Input, Flex, Tabs, Divider } from 'antd';
 
 function EditorInputMessage({ onMessageChange }) {
@@ -33,6 +35,17 @@ function EditorInputDate({ onInputChange }) {
         onInputChange(date, tabValue);
         setDateContent(date);
     };
+
+    const enterKeyExtension = useMemo(() => {
+        return Prec.highest(keymap.of([
+            {
+                key: "Enter",
+                run: (view) => {
+                    return false;
+                }
+            }
+        ]));
+    }, []);
 
     return (
         <Flex vertical style={{ flex: 1 }}>
@@ -66,6 +79,7 @@ function EditorInputDate({ onInputChange }) {
                         base: markdownLanguage,
                         codeLanguages: languages,
                     }),
+                    enterKeyExtension,
                 ]}
             />
         </Flex>
