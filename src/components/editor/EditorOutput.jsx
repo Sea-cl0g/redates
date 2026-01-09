@@ -74,8 +74,15 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
     const [isAiEnabled, setIsAiEnabled] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const [aiText, setAiText] = useState('');
-    const [apiStatus, setApiStatus] = useState({available:false});
+    const [messageApi, contextHolder] = message.useMessage();
     const padding = 16;
+
+    const showErrorMessage = (e) => {
+        messageApi.open({
+            type: 'error',
+            content: e.message || 'An error occurred',
+        });
+    };
 
     const handleGenerate = async () => {
         if (!inputText) return;
@@ -95,6 +102,7 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
             );
         } catch (error) {
             console.error(error);
+            showErrorMessage(error);
         } finally {
             setIsGenerating(false);
         }
@@ -102,30 +110,33 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
 
     const displayText = isAiEnabled && aiText ? aiText : convertedText;
     return (
-        <Flex
-            vertical
-            justify="space-between"
-            style={{
-                height: `calc(100% - ${padding * 2}px)`,
-                padding: `${padding}px`,
-            }}
-            gap="small"
-        >
+        <>
+            {contextHolder}
             <Flex
                 vertical
-                justify="flex-start"
-                style={{ flex: 1, minHeight: 0 }}
+                justify="space-between"
+                style={{
+                    height: `calc(100% - ${padding * 2}px)`,
+                    padding: `${padding}px`,
+                }}
                 gap="small"
             >
-                <EditorOutputHeader
-                    isAiEnabled={isAiEnabled}
-                    setIsAiEnabled={setIsAiEnabled}
-                    onGenerate={handleGenerate}
-                    isGenerating={isGenerating}
-                />
-                <EditorOutputMain convertedText={displayText} />
+                <Flex
+                    vertical
+                    justify="flex-start"
+                    style={{ flex: 1, minHeight: 0 }}
+                    gap="small"
+                >
+                    <EditorOutputHeader
+                        isAiEnabled={isAiEnabled}
+                        setIsAiEnabled={setIsAiEnabled}
+                        onGenerate={handleGenerate}
+                        isGenerating={isGenerating}
+                    />
+                    <EditorOutputMain convertedText={displayText} />
+                </Flex>
+                <EditorOutputFooter />
             </Flex>
-            <EditorOutputFooter />
-        </Flex>
+        </>
     );
 };
