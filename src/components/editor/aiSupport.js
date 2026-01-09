@@ -5,31 +5,27 @@ const options = {
     sharedContext: ''
 }
 
-async function isRewriterAPIAvailable() {
-    if (!self.Rewriter) {
-        statusDescription.textContent = "Rewriter APIが見つかりませんでした";
-        return;
+export async  function isRewriterAvailable() {
+    if (!('Rewriter' in self)) {
+        return { available: false, message: 'Rewriter APIが見つかりませんでした' };
     }
 
     try {
         const availability = await self.Rewriter.availability();
-
         if (availability === 'no') {
-            statusDescription.textContent = "Rewriter APIが使用できません";
-            return;
+            return { available: false, message: 'Rewriter APIが使用できません' };
         }
-
-        statusDescription.textContent = "Rewriter APIが使用可能です";
-
+        return { available: true, message: 'Rewriter APIが使用可能です' };
     } catch (error) {
         console.error(error);
-        statusDescription.textContent = "Rewriter APIの使用可否チェックで問題が発生しました";
+        return { available: false, message: 'Rewriter APIの使用可否チェックで問題が発生しました' };
     }
 }
 
 export async function rewriteText(inputText, onUpdate) {
-    if (!('Rewriter' in self)) {
-        throw new Error('Rewriter API not supported');
+    const check = await isRewriterAvailable();
+    if (!check.available) {
+        throw new Error(check.message);
     }
 
     let rewriter;

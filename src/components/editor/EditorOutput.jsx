@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DownloadOutlined, CopyOutlined } from '@ant-design/icons';
 import { Flex, Switch, Typography, Button, Divider, Tooltip } from 'antd';
 const { Text } = Typography;
@@ -74,7 +74,17 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
     const [isAiEnabled, setIsAiEnabled] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const [aiText, setAiText] = useState('');
+    const [apiStatus, setApiStatus] = useState(null);
     const padding = 16;
+    useEffect(() => {
+        const checkAPI = async () => {
+            const { isRewriterAvailable } = await import('./aiSupport');
+            const status = await isRewriterAvailable();
+            setApiStatus(status);
+            console.log(status);
+        };
+        checkAPI();
+    }, []);
 
     const handleGenerate = async () => {
         if (!inputText) return;
