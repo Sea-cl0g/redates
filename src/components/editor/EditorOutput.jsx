@@ -45,6 +45,14 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
         setIsModalOpen(true);
     };
     const handleOk = () => {
+        import('./aiSupport').then(({ updateOptions }) => {
+            updateOptions({
+                tone,
+                format,
+                length,
+                sharedContext: value
+            });
+        });
         setIsModalOpen(false);
     };
     const handleCancel = () => {

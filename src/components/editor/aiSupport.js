@@ -1,9 +1,14 @@
 const options = {
-    tone: 'more-formal',
+    tone: 'as-is',
     length: 'as-is',
     format: 'as-is',
-    sharedContext: ''
+    sharedContext: '日本語で出力してください'
 }
+
+export function updateOptions(newOptions) {
+    Object.assign(options, newOptions);
+}
+
 
 export async function checkRewriterAPI() {
     if (!('Rewriter' in self)) {
