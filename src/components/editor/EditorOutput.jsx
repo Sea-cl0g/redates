@@ -3,7 +3,8 @@ import { DownloadOutlined, CopyOutlined } from '@ant-design/icons';
 import { Flex, Switch, Typography, Button, Divider, Tooltip } from 'antd';
 const { Text } = Typography;
 
-function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
+function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating, apiStatus }) {
+    console.log(apiStatus, apiStatus.available)
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
@@ -14,6 +15,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                     onChange={setIsAiEnabled}
                     checkedChildren="ON"
                     unCheckedChildren="OFF"
+                    disabled={apiStatus.available}
                 />
             </Flex>
             <Button type="primary" disabled={!isAiEnabled} loading={isGenerating} onClick={onGenerate} >
@@ -129,6 +131,7 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
                     setIsAiEnabled={setIsAiEnabled}
                     onGenerate={handleGenerate}
                     isGenerating={isGenerating}
+                    apiStatus={apiStatus}
                 />
                 <EditorOutputMain convertedText={displayText} />
             </Flex>
