@@ -5,11 +5,29 @@ const options = {
     sharedContext: ''
 }
 
-export async function rewriteText(inputText, onUpdate) {
+export async function checkRewriterAPI() {
     if (!('Rewriter' in self)) {
-        throw new Error('Rewriter API not supported');
+        throw new Error('Rewriter APIが見つかりませんでした');
     }
 
+    try {
+        const availability = await self.Rewriter.availability();
+
+        if (availability === 'no') {
+            throw new Error('Rewriter APIが使用できません');
+        }
+
+        return { available: true, message: 'Rewriter APIが使用可能です' };
+
+    } catch (error) {
+        if (error.message === 'Rewriter APIが使用できません') {
+            throw error;
+        }
+        throw new Error('Rewriter APIの使用可否チェックで問題が発生しました');
+    }
+}
+
+export async function rewriteText(inputText, onUpdate) {
     let rewriter;
     let result = '';
     try {

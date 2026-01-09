@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DownloadOutlined, CopyOutlined } from '@ant-design/icons';
-import { Flex, Switch, Typography, Button, Divider, Tooltip } from 'antd';
+import { Flex, Switch, Typography, Button, Divider, Tooltip, message } from 'antd';
 const { Text } = Typography;
 
 function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
@@ -88,7 +88,15 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
     const [isAiEnabled, setIsAiEnabled] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const [aiText, setAiText] = useState('');
+    const [messageApi, contextHolder] = message.useMessage();
     const padding = 16;
+
+    const showErrorMessage = (e) => {
+        messageApi.open({
+            type: 'error',
+            content: e.message || 'An error occurred',
+        });
+    };
 
     const handleGenerate = async () => {
         if (!inputText) return;
@@ -96,8 +104,10 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
         setIsGenerating(true);
         setAiText('');
         try {
+            const { checkRewriterAPI } = await import('./aiSupport');
             const { convertTextWithAI } = await import('./dateConvert');
 
+            await checkRewriterAPI();
             await convertTextWithAI(
                 inputMessage,
                 inputText,
@@ -106,6 +116,7 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
             );
         } catch (error) {
             console.error(error);
+            showErrorMessage(error);
         } finally {
             setIsGenerating(false);
         }
@@ -113,30 +124,33 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
 
     const displayText = isAiEnabled && aiText ? aiText : convertedText;
     return (
-        <Flex
-            vertical
-            justify="space-between"
-            style={{
-                height: `calc(100% - ${padding * 2}px)`,
-                padding: `${padding}px`,
-            }}
-            gap="small"
-        >
+        <>
+            {contextHolder}
             <Flex
                 vertical
-                justify="flex-start"
-                style={{ flex: 1, minHeight: 0 }}
+                justify="space-between"
+                style={{
+                    height: `calc(100% - ${padding * 2}px)`,
+                    padding: `${padding}px`,
+                }}
                 gap="small"
             >
-                <EditorOutputHeader
-                    isAiEnabled={isAiEnabled}
-                    setIsAiEnabled={setIsAiEnabled}
-                    onGenerate={handleGenerate}
-                    isGenerating={isGenerating}
-                />
-                <EditorOutputMain convertedText={displayText} />
+                <Flex
+                    vertical
+                    justify="flex-start"
+                    style={{ flex: 1, minHeight: 0 }}
+                    gap="small"
+                >
+                    <EditorOutputHeader
+                        isAiEnabled={isAiEnabled}
+                        setIsAiEnabled={setIsAiEnabled}
+                        onGenerate={handleGenerate}
+                        isGenerating={isGenerating}
+                    />
+                    <EditorOutputMain convertedText={displayText} />
+                </Flex>
+                <EditorOutputFooter />
             </Flex>
-            <EditorOutputFooter convertedText={displayText} />
-        </Flex>
+        </>
     );
 };
