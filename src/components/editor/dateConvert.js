@@ -138,6 +138,11 @@ function parseDateLine(line, dict) {
 }
 
 function formatDate({ dateData, comment, useYear }) {
+  const month = dateData.getMonth() + 1;
+  const date = dateData.getDate();
+  const day = useYear ? `(${dateData.getDay()})` : '';
+  const commentText = !comment ? "" : `${comment}`;
+  return `- ${month}月${date}日${day} ${commentText}`;
 }
 
 // ============================================================================
