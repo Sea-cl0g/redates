@@ -48,7 +48,6 @@ function EditorOutputMain({ convertedText }) {
 function EditorOutputFooter({ convertedText }) {
     const [copyTooltip, setCopyTooltip] = useState("Copy");
     const onCopyClicked = () => {
-        console.log(convertedText)
         navigator.clipboard.writeText(convertedText)
             .then(() => {
                 setCopyTooltip("Copied!");
