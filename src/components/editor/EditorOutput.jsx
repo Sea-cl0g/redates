@@ -1,13 +1,74 @@
 import React, { useState } from 'react';
-import { DownloadOutlined, CopyOutlined } from '@ant-design/icons';
-import { Flex, Switch, Typography, Button, Divider, Tooltip, message } from 'antd';
+import { DownloadOutlined, CopyOutlined, AntDesignOutlined, ToolOutlined } from '@ant-design/icons';
+import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input } from 'antd';
 const { Text } = Typography;
+const { TextArea } = Input;
+
+import { createStyles } from 'antd-style';
+const toneList = ['more-formal', 'as-is', 'more-casual'];
+const formatList = ['markdown', 'as-is', 'plain-text'];
+const lengthList = ['shorter', 'as-is', 'longer '];
+
+const useStyle = createStyles(({ prefixCls, css }) => ({
+    linearGradientButton: css`
+    &.${prefixCls}-btn-primary:not([disabled]):not(.${prefixCls}-btn-dangerous) {
+      > span {
+        position: relative;
+      }
+
+      &::before {
+        content: '';
+        background: linear-gradient(135deg, #6253e1, #04befe);
+        position: absolute;
+        inset: -1px;
+        opacity: 1;
+        transition: all 0.3s;
+        border-radius: inherit;
+      }
+
+      &:hover::before {
+        opacity: 0;
+      }
+    }
+  `,
+}));
+
+// ============================================================================ //
+
 
 function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
+    const { styles } = useStyle();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [value, setValue] = useState('');
+    // Modal
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+    // Tone
+    const [tone, setTone] = useState('more-formal');
+    const onToneChanged = ({ target: { value } }) => {
+        setTone(value);
+    };
+    // Format
+    const [format, setFormat] = useState('as-is');
+    const onFormatChanged = ({ target: { value } }) => {
+        setFormat(value);
+    };
+    // Length
+    const [length, setLength] = useState('as-is');
+    const onLengthChanged = ({ target: { value } }) => {
+        setLength(value);
+    };
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
-                <Text strong>AI Mode</Text>
+                <Text strong>Rewriter AI</Text>
                 <Divider orientation="vertical" />
                 <Switch
                     checked={isAiEnabled}
@@ -16,10 +77,89 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                     unCheckedChildren="OFF"
                 />
             </Flex>
-            <Button type="primary" disabled={!isAiEnabled} loading={isGenerating} onClick={onGenerate} >
-                Generate
-            </Button>
-        </Flex>
+            <Flex justify="flex-end" align="center" gap="small">
+                <ConfigProvider
+                    button={{
+                        className: styles.linearGradientButton,
+                    }}
+                >
+                    <Button
+                        type="primary"
+                        icon={<AntDesignOutlined />}
+                        loading={isGenerating}
+                        onClick={onGenerate}
+                        disabled={!isAiEnabled}
+                    >
+                        Generate
+                    </Button>
+                </ConfigProvider>
+                <Tooltip title="Edit Prompt">
+                    <Button
+                        type="dashed"
+                        icon={<ToolOutlined />}
+                        size="middle"
+                        onClick={showModal}
+                        disabled="false"
+                    />
+                </Tooltip>
+            </Flex>
+            <Modal
+                title="Prompt Settings"
+                closable={{ 'aria-label': 'Custom Close Button' }}
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <Divider titlePlacement="start">Options</Divider>
+                <Flex vertical gap="small" style={{ padding: `0 5% 0 5%` }}>
+                    <Flex justify="space-between" align="center" >
+                        <Text>Tone</Text>
+                        <Divider vertical />
+                        <Radio.Group
+                            options={toneList}
+                            onChange={onToneChanged}
+                            value={tone}
+                            optionType="button"
+                            buttonStyle="solid"
+                            size="middle"
+                        />
+                    </Flex>
+                    <Flex justify="space-between" align="center">
+                        <Text>Format</Text>
+                        <Divider vertical />
+                        <Radio.Group
+                            options={formatList}
+                            onChange={onFormatChanged}
+                            value={format}
+                            optionType="button"
+                            buttonStyle="solid"
+                            size="middle"
+                        />
+                    </Flex>
+                    <Flex justify="space-between" align="center">
+                        <Text>Length</Text>
+                        <Divider vertical />
+                        <Radio.Group
+                            options={lengthList}
+                            onChange={onLengthChanged}
+                            value={length}
+                            optionType="button"
+                            buttonStyle="solid"
+                            size="middle"
+                        />
+                    </Flex>
+                </Flex>
+                <Divider titlePlacement="start">sharedContext</Divider>
+                <Flex vertical style={{ padding: `0 5% 0 5%` }}>
+                    <TextArea
+                        value={value}
+                        onChange={e => setValue(e.target.value)}
+                        placeholder="In Japanese."
+                        autoSize={{ minRows: 3, maxRows: 5 }}
+                    />
+                </Flex>
+            </Modal>
+        </Flex >
     );
 }
 
@@ -48,7 +188,6 @@ function EditorOutputMain({ convertedText }) {
 function EditorOutputFooter({ convertedText }) {
     const [copyTooltip, setCopyTooltip] = useState("Copy");
     const onCopyClicked = () => {
-        console.log(convertedText)
         navigator.clipboard.writeText(convertedText)
             .then(() => {
                 setCopyTooltip("Copied!");
@@ -84,6 +223,9 @@ function EditorOutputFooter({ convertedText }) {
         </Flex>
     );
 }
+
+// ============================================================================ //
+
 
 export default function EditorOutput({ convertedText, inputMessage, inputText, inputLang }) {
     const [isAiEnabled, setIsAiEnabled] = useState(false);
@@ -150,7 +292,7 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
                     />
                     <EditorOutputMain convertedText={displayText} />
                 </Flex>
-                <EditorOutputFooter convertedText={displayText}/>
+                <EditorOutputFooter convertedText={displayText} />
             </Flex>
         </>
     );

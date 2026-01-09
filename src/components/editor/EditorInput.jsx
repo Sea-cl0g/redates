@@ -10,6 +10,9 @@ import ReactCodeMirror from "@uiw/react-codemirror";
 import React, { useState, useMemo } from 'react';
 import { Input, Flex, Tabs, Divider } from 'antd';
 
+
+// ============================================================================ //
+
 function EditorInputMessage({ onMessageChange }) {
     const onChange = key => {
         onMessageChange(key.target.value);
@@ -141,6 +144,8 @@ function EditorInputDate({ onInputChange }) {
         </Flex>
     );
 }
+
+// ============================================================================ //
 
 
 export default function EditorInput({ onInputChange }) {
