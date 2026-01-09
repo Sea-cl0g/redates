@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { DownloadOutlined, CopyOutlined, AntDesignOutlined, ToolOutlined } from '@ant-design/icons';
-import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input, Space } from 'antd';
+import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input } from 'antd';
 const { Text } = Typography;
 const { TextArea } = Input;
 
 import { createStyles } from 'antd-style';
-const tone = ['more-formal', 'as-is', 'more-casual'];
-const format = ['as-is', 'markdown', 'plain-text'];
-const length = ['shorter', 'as-is', 'longer '];
+const toneList = ['more-formal', 'as-is', 'more-casual'];
+const formatList = ['markdown', 'as-is', 'plain-text'];
+const lengthList = ['shorter', 'as-is', 'longer '];
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
@@ -40,6 +40,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     const { styles } = useStyle();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [value, setValue] = useState('');
+    // Modal
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -49,10 +50,20 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-    const [value4, setValue4] = useState('as-is');
-    const onChange4 = ({ target: { value } }) => {
-        console.log('radio4 checked', value);
-        setValue4(value);
+    // Tone
+    const [tone, setTone] = useState('more-formal');
+    const onToneChanged = ({ target: { value } }) => {
+        setTone(value);
+    };
+    // Format
+    const [format, setFormat] = useState('as-is');
+    const onFormatChanged = ({ target: { value } }) => {
+        setFormat(value);
+    };
+    // Length
+    const [length, setLength] = useState('as-is');
+    const onLengthChanged = ({ target: { value } }) => {
+        setLength(value);
     };
     return (
         <Flex justify="space-between" align="center">
@@ -88,70 +99,61 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                         icon={<ToolOutlined />}
                         size="middle"
                         onClick={showModal}
-                        disabled="false"
                     />
                 </Tooltip>
             </Flex>
             <Modal
-                title="Basic Modal"
+                title="Prompt Settings"
                 closable={{ 'aria-label': 'Custom Close Button' }}
                 open={isModalOpen}
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
-                <Flex
-                    vertical
-                    justify="space-between"
-                    gap="small"
-                >
-                    <Divider titlePlacement="start">Options</Divider>
-                    <Flex justify="space-around" align="center">
-                        <Flex justify="flex-start" align="center" gap="small">
-                            <Text>Tone</Text>
-                            <Divider vertical />
-                        </Flex>
+                <Divider titlePlacement="start">Options</Divider>
+                <Flex vertical gap="small" style={{ padding: `0 5% 0 5%` }}>
+                    <Flex justify="space-between" align="center" >
+                        <Text>Tone</Text>
+                        <Divider vertical />
                         <Radio.Group
-                            options={tone}
-                            onChange={onChange4}
-                            value={value4}
+                            options={toneList}
+                            onChange={onToneChanged}
+                            value={tone}
                             optionType="button"
                             buttonStyle="solid"
                             size="middle"
                         />
                     </Flex>
-                    <Flex justify="space-around" align="center">
-                        <Flex justify="flex-start" align="center" gap="small">
-                            <Text>Tone</Text>
-                            <Divider vertical />
-                        </Flex>
+                    <Flex justify="space-between" align="center">
+                        <Text>Format</Text>
+                        <Divider vertical />
                         <Radio.Group
-                            options={tone}
-                            onChange={onChange4}
-                            value={value4}
+                            options={formatList}
+                            onChange={onFormatChanged}
+                            value={format}
                             optionType="button"
                             buttonStyle="solid"
                             size="middle"
                         />
                     </Flex>
-                    <Flex justify="space-around" align="center">
-                        <Flex justify="flex-start" align="center" gap="small">
-                            <Text>Tone</Text>
-                            <Divider vertical />
-                        </Flex>
+                    <Flex justify="space-between" align="center">
+                        <Text>Length</Text>
+                        <Divider vertical />
                         <Radio.Group
-                            options={tone}
-                            onChange={onChange4}
-                            value={value4}
+                            options={lengthList}
+                            onChange={onLengthChanged}
+                            value={length}
                             optionType="button"
                             buttonStyle="solid"
                             size="middle"
                         />
                     </Flex>
-                    <Divider titlePlacement="start">sharedContext</Divider>
+                </Flex>
+                <Divider titlePlacement="start">sharedContext</Divider>
+                <Flex vertical style={{ padding: `0 5% 0 5%` }}>
                     <TextArea
                         value={value}
                         onChange={e => setValue(e.target.value)}
-                        placeholder="Controlled autosize"
+                        placeholder="In Japanese."
                         autoSize={{ minRows: 3, maxRows: 5 }}
                     />
                 </Flex>
