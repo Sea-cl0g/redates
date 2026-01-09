@@ -1,11 +1,38 @@
 import React, { useState } from 'react';
-import { DownloadOutlined, CopyOutlined } from '@ant-design/icons';
-import { Flex, Switch, Typography, Button, Divider, Tooltip, message } from 'antd';
+import { DownloadOutlined, CopyOutlined, AntDesignOutlined } from '@ant-design/icons';
+import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message } from 'antd';
 const { Text } = Typography;
+import { createStyles } from 'antd-style';
+
+const useStyle = createStyles(({ prefixCls, css }) => ({
+  linearGradientButton: css`
+    &.${prefixCls}-btn-primary:not([disabled]):not(.${prefixCls}-btn-dangerous) {
+      > span {
+        position: relative;
+      }
+
+      &::before {
+        content: '';
+        background: linear-gradient(135deg, #6253e1, #04befe);
+        position: absolute;
+        inset: -1px;
+        opacity: 1;
+        transition: all 0.3s;
+        border-radius: inherit;
+      }
+
+      &:hover::before {
+        opacity: 0;
+      }
+    }
+  `,
+}));
+
 // ============================================================================ //
 
 
 function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
+    const { styles } = useStyle();
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
@@ -18,10 +45,16 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                     unCheckedChildren="OFF"
                 />
             </Flex>
-            <Button type="primary" disabled={!isAiEnabled} loading={isGenerating} onClick={onGenerate} >
-                Generate
-            </Button>
-        </Flex>
+            <ConfigProvider
+                button={{
+                    className: styles.linearGradientButton,
+                }}
+            >
+                <Button type="primary" disabled={!isAiEnabled} icon={<AntDesignOutlined />} loading={isGenerating} onClick={onGenerate} >
+                    Generate
+                </Button>
+            </ConfigProvider>
+        </Flex >
     );
 }
 
@@ -154,7 +187,7 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
                     />
                     <EditorOutputMain convertedText={displayText} />
                 </Flex>
-                <EditorOutputFooter convertedText={displayText}/>
+                <EditorOutputFooter convertedText={displayText} />
             </Flex>
         </>
     );
