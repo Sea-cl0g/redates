@@ -1,5 +1,5 @@
-import { jsonLanguage } from "@codemirror/lang-json";
-import { yamlLanguage } from "@codemirror/lang-yaml";
+//import { jsonLanguage } from "@codemirror/lang-json";
+//import { yamlLanguage } from "@codemirror/lang-yaml";
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from "@codemirror/language-data";
 import { xcodeLight } from "@uiw/codemirror-theme-xcode";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { DownloadOutlined, CopyOutlined } from '@ant-design/icons';
 import { Flex, Switch, Typography, Button, Divider, Tooltip, message } from 'antd';
 const { Text } = Typography;
