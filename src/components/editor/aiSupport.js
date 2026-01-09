@@ -5,7 +5,7 @@ const options = {
     sharedContext: ''
 }
 
-async function isRewriterAPIAvailable() {
+async function checkRewriterAPI() {
     if (!self.Rewriter) {
         statusDescription.textContent = "Rewriter APIが見つかりませんでした";
         return;
