@@ -36,7 +36,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
-                <Text strong>AI Mode</Text>
+                <Text strong>Rewriter AI</Text>
                 <Divider orientation="vertical" />
                 <Switch
                     checked={isAiEnabled}
