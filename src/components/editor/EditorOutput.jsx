@@ -45,16 +45,30 @@ function EditorOutputMain({ convertedText }) {
     );
 }
 
-function EditorOutputFooter() {
+function EditorOutputFooter({ convertedText }) {
+    const [copyTooltip, setCopyTooltip] = useState("Copy");
+    const onCopyClicked = () => {
+        navigator.clipboard.writeText(convertedText)
+            .then(() => {
+                setCopyTooltip("Copied!");
+                setTimeout(() => setCopyTooltip("Copy"), 2000);
+            })
+            .catch(() => {
+                console.log("Failed to copy", convertedText);
+                setCopyTooltip("Failed to copy");
+                setTimeout(() => setCopyTooltip("Copy"), 2000);
+            });
+    };
+
     return (
         <Flex justify="flex-end" gap="small">
-            <Tooltip title="Copy">
+            <Tooltip title={copyTooltip}>
                 <Button
                     shape="circle"
                     icon={<CopyOutlined />}
                     size="large"
                     type="dashed"
-                    disabled="true"
+                    onClick={onCopyClicked}
                 />
             </Tooltip>
             <Tooltip title="Download">

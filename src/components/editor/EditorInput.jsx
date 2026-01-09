@@ -64,6 +64,10 @@ function EditorInputDate({ onInputChange }) {
         setDateContent(date);
     };
 
+    React.useEffect(() => {
+        onInputChange(defaultVal, tabValue);
+    }, []);
+
     const enterKeyExtension = useMemo(() => {
         return Prec.highest(keymap.of([
             {
