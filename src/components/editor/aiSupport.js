@@ -9,6 +9,10 @@ export function updateOptions(newOptions) {
     Object.assign(options, newOptions);
 }
 
+export function getOptions() {
+    return { ...options };
+}
+
 
 export async function checkRewriterAPI() {
     if (!('Rewriter' in self)) {

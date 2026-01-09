@@ -41,7 +41,13 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [value, setValue] = useState('');
     // Modal
-    const showModal = () => {
+    const showModal = async () => {
+        const { getOptions } = await import('./aiSupport');
+        const currentOptions = getOptions();
+        setTone(currentOptions.tone);
+        setFormat(currentOptions.format);
+        setLength(currentOptions.length);
+        setValue(currentOptions.sharedContext);
         setIsModalOpen(true);
     };
     const handleOk = () => {
