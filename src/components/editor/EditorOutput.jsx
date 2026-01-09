@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { DownloadOutlined, CopyOutlined, AntDesignOutlined } from '@ant-design/icons';
+import { DownloadOutlined, CopyOutlined, AntDesignOutlined, ToolOutlined } from '@ant-design/icons';
 import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message } from 'antd';
 const { Text } = Typography;
 import { createStyles } from 'antd-style';
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
-  linearGradientButton: css`
+    linearGradientButton: css`
     &.${prefixCls}-btn-primary:not([disabled]):not(.${prefixCls}-btn-dangerous) {
       > span {
         position: relative;
@@ -45,15 +45,31 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                     unCheckedChildren="OFF"
                 />
             </Flex>
-            <ConfigProvider
-                button={{
-                    className: styles.linearGradientButton,
-                }}
-            >
-                <Button type="primary" disabled={!isAiEnabled} icon={<AntDesignOutlined />} loading={isGenerating} onClick={onGenerate} >
-                    Generate
-                </Button>
-            </ConfigProvider>
+            <Flex justify="flex-end" align="center" gap="small">
+                <ConfigProvider
+                    button={{
+                        className: styles.linearGradientButton,
+                    }}
+                >
+                    <Button
+                        type="primary"
+                        icon={<AntDesignOutlined />}
+                        loading={isGenerating}
+                        onClick={onGenerate}
+                        disabled={!isAiEnabled}
+                    >
+                        Generate
+                    </Button>
+                </ConfigProvider>
+                <Tooltip title="Edit Prompt">
+                    <Button
+                        type="dashed"
+                        icon={<ToolOutlined />}
+                        size="middle"
+                        disabled='false'
+                    />
+                </Tooltip>
+            </Flex>
         </Flex >
     );
 }
