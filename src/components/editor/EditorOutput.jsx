@@ -76,7 +76,7 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
     const [isAiEnabled, setIsAiEnabled] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const [aiText, setAiText] = useState('');
-    const [apiStatus, setApiStatus] = useState(null);
+    const [apiStatus, setApiStatus] = useState({available:false});
     const padding = 16;
     useEffect(() => {
         const checkAPI = async () => {
