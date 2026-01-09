@@ -5,25 +5,25 @@ const options = {
     sharedContext: ''
 }
 
-async function checkRewriterAPI() {
-    if (!self.Rewriter) {
-        statusDescription.textContent = "Rewriter APIが見つかりませんでした";
-        return;
+export async function checkRewriterAPI() {
+    if (!('Rewriter' in self)) {
+        throw new Error('Rewriter APIが見つかりませんでした');
     }
 
     try {
         const availability = await self.Rewriter.availability();
 
         if (availability === 'no') {
-            statusDescription.textContent = "Rewriter APIが使用できません";
-            return;
+            throw new Error('Rewriter APIが使用できません');
         }
 
-        statusDescription.textContent = "Rewriter APIが使用可能です";
+        return { available: true, message: 'Rewriter APIが使用可能です' };
 
     } catch (error) {
-        console.error(error);
-        statusDescription.textContent = "Rewriter APIの使用可否チェックで問題が発生しました";
+        if (error.message === 'Rewriter APIが使用できません') {
+            throw error;
+        }
+        throw new Error('Rewriter APIの使用可否チェックで問題が発生しました');
     }
 }
 
