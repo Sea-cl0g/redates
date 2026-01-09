@@ -45,9 +45,9 @@ function EditorOutputMain({ convertedText }) {
     );
 }
 
-function EditorOutputFooter() {
+function EditorOutputFooter({ convertedText }) {
     const onCopyClicked = () => {
-        navigator.clipboard.writeText("test")
+        navigator.clipboard.writeText(convertedText)
             .then(() => {
                 console.log("Success!");
             })
@@ -132,7 +132,7 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
                 />
                 <EditorOutputMain convertedText={displayText} />
             </Flex>
-            <EditorOutputFooter />
+            <EditorOutputFooter convertedText={displayText} />
         </Flex>
     );
 };
