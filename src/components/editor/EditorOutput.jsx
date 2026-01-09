@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { DownloadOutlined, CopyOutlined } from '@ant-design/icons';
 import { Flex, Switch, Typography, Button, Divider, Tooltip, message } from 'antd';
 const { Text } = Typography;
+// ============================================================================ //
+
 
 function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
     return (
@@ -83,6 +85,9 @@ function EditorOutputFooter({ convertedText }) {
         </Flex>
     );
 }
+
+// ============================================================================ //
+
 
 export default function EditorOutput({ convertedText, inputMessage, inputText, inputLang }) {
     const [isAiEnabled, setIsAiEnabled] = useState(false);
