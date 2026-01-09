@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { DownloadOutlined, CopyOutlined, AntDesignOutlined, ToolOutlined } from '@ant-design/icons';
-import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message } from 'antd';
+import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input, Space } from 'antd';
 const { Text } = Typography;
+const { TextArea } = Input;
+
 import { createStyles } from 'antd-style';
+const tone = ['more-formal', 'as-is', 'more-casual'];
+const format = ['as-is', 'markdown', 'plain-text'];
+const length = ['shorter', 'as-is', 'longer '];
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
@@ -33,6 +38,22 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
 
 function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
     const { styles } = useStyle();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [value, setValue] = useState('');
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+    const [value4, setValue4] = useState('as-is');
+    const onChange4 = ({ target: { value } }) => {
+        console.log('radio4 checked', value);
+        setValue4(value);
+    };
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
@@ -66,10 +87,75 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                         type="dashed"
                         icon={<ToolOutlined />}
                         size="middle"
-                        disabled='false'
+                        onClick={showModal}
+                        disabled="false"
                     />
                 </Tooltip>
             </Flex>
+            <Modal
+                title="Basic Modal"
+                closable={{ 'aria-label': 'Custom Close Button' }}
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <Flex
+                    vertical
+                    justify="space-between"
+                    gap="small"
+                >
+                    <Divider titlePlacement="start">Options</Divider>
+                    <Flex justify="space-around" align="center">
+                        <Flex justify="flex-start" align="center" gap="small">
+                            <Text>Tone</Text>
+                            <Divider vertical />
+                        </Flex>
+                        <Radio.Group
+                            options={tone}
+                            onChange={onChange4}
+                            value={value4}
+                            optionType="button"
+                            buttonStyle="solid"
+                            size="middle"
+                        />
+                    </Flex>
+                    <Flex justify="space-around" align="center">
+                        <Flex justify="flex-start" align="center" gap="small">
+                            <Text>Tone</Text>
+                            <Divider vertical />
+                        </Flex>
+                        <Radio.Group
+                            options={tone}
+                            onChange={onChange4}
+                            value={value4}
+                            optionType="button"
+                            buttonStyle="solid"
+                            size="middle"
+                        />
+                    </Flex>
+                    <Flex justify="space-around" align="center">
+                        <Flex justify="flex-start" align="center" gap="small">
+                            <Text>Tone</Text>
+                            <Divider vertical />
+                        </Flex>
+                        <Radio.Group
+                            options={tone}
+                            onChange={onChange4}
+                            value={value4}
+                            optionType="button"
+                            buttonStyle="solid"
+                            size="middle"
+                        />
+                    </Flex>
+                    <Divider titlePlacement="start">sharedContext</Divider>
+                    <TextArea
+                        value={value}
+                        onChange={e => setValue(e.target.value)}
+                        placeholder="Controlled autosize"
+                        autoSize={{ minRows: 3, maxRows: 5 }}
+                    />
+                </Flex>
+            </Modal>
         </Flex >
     );
 }
