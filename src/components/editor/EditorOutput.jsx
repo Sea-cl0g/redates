@@ -83,8 +83,10 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
         setIsGenerating(true);
         setAiText('');
         try {
+            const { checkRewriterAPI } = await import('./aiSupport');
             const { convertTextWithAI } = await import('./dateConvert');
 
+            await checkRewriterAPI();
             await convertTextWithAI(
                 inputMessage,
                 inputText,

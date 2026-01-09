@@ -28,11 +28,6 @@ export async function checkRewriterAPI() {
 }
 
 export async function rewriteText(inputText, onUpdate) {
-    const check = await isRewriterAvailable();
-    if (!check.available) {
-        throw new Error(check.message);
-    }
-
     let rewriter;
     let result = '';
     try {
