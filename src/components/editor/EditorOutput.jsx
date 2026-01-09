@@ -46,6 +46,16 @@ function EditorOutputMain({ convertedText }) {
 }
 
 function EditorOutputFooter() {
+    const onCopyClicked = () => {
+        navigator.clipboard.writeText("test")
+            .then(() => {
+                console.log("Success!");
+            })
+            .catch(() => {
+                console.log("Ops, something went wrong...");
+            });
+    };
+
     return (
         <Flex justify="flex-end" gap="small">
             <Tooltip title="Copy">
@@ -54,7 +64,7 @@ function EditorOutputFooter() {
                     icon={<CopyOutlined />}
                     size="large"
                     type="dashed"
-                    disabled="true"
+                    onClick={onCopyClicked}
                 />
             </Tooltip>
             <Tooltip title="Download">
