@@ -113,7 +113,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                         icon={<ToolOutlined />}
                         size="middle"
                         onClick={showModal}
-                        disabled="false"
+                        disabled={!isAiEnabled}
                     />
                 </Tooltip>
             </Flex>
