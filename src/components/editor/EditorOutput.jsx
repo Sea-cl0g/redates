@@ -15,7 +15,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                     onChange={setIsAiEnabled}
                     checkedChildren="ON"
                     unCheckedChildren="OFF"
-                    disabled={apiStatus.available}
+                    disabled={!apiStatus.available}
                 />
             </Flex>
             <Button type="primary" disabled={!isAiEnabled} loading={isGenerating} onClick={onGenerate} >
