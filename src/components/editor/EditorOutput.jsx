@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { DownloadOutlined, CopyOutlined } from '@ant-design/icons';
-import { Flex, Switch, Typography, Button, Divider, Tooltip } from 'antd';
+import { Flex, Switch, Typography, Button, Divider, Tooltip, message } from 'antd';
 const { Text } = Typography;
 
-function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating, apiStatus }) {
-    console.log(apiStatus, apiStatus.available)
+function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
@@ -15,7 +14,6 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                     onChange={setIsAiEnabled}
                     checkedChildren="ON"
                     unCheckedChildren="OFF"
-                    disabled={!apiStatus.available}
                 />
             </Flex>
             <Button type="primary" disabled={!isAiEnabled} loading={isGenerating} onClick={onGenerate} >
@@ -78,15 +76,6 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
     const [aiText, setAiText] = useState('');
     const [apiStatus, setApiStatus] = useState({available:false});
     const padding = 16;
-    useEffect(() => {
-        const checkAPI = async () => {
-            const { isRewriterAvailable } = await import('./aiSupport');
-            const status = await isRewriterAvailable();
-            setApiStatus(status);
-            console.log(status);
-        };
-        checkAPI();
-    }, []);
 
     const handleGenerate = async () => {
         if (!inputText) return;
@@ -131,7 +120,6 @@ export default function EditorOutput({ convertedText, inputMessage, inputText, i
                     setIsAiEnabled={setIsAiEnabled}
                     onGenerate={handleGenerate}
                     isGenerating={isGenerating}
-                    apiStatus={apiStatus}
                 />
                 <EditorOutputMain convertedText={displayText} />
             </Flex>
