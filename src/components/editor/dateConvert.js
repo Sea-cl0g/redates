@@ -145,6 +145,7 @@ function formatDate({ dateData, comment, useYear }) {
   return `- ${month}月${date}日${day} ${commentText}`;
 }
 
+/*
 function formatDate({ dateData, comment, useYear }, format) {
   const pad = (num, len = 2) => String(num).padStart(len, "0");
   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
@@ -166,6 +167,6 @@ function formatDate({ dateData, comment, useYear }, format) {
   );
   return `${result} ${comment}`;
 }
-
+*/
 
 // ============================================================================
