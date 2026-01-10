@@ -7,7 +7,7 @@ const { TextArea } = Input;
 import { createStyles } from 'antd-style';
 const toneList = ['more-formal', 'as-is', 'more-casual'];
 const formatList = ['markdown', 'as-is', 'plain-text'];
-const lengthList = ['shorter', 'as-is', 'longer '];
+const lengthList = ['shorter', 'as-is', 'longer'];
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
