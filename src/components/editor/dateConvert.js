@@ -145,4 +145,27 @@ function formatDate({ dateData, comment, useYear }) {
   return `- ${month}月${date}日${day} ${commentText}`;
 }
 
+function formatDate({ dateData, comment, useYear }, format) {
+  const pad = (num, len = 2) => String(num).padStart(len, "0");
+  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+
+  const map = {
+    yyyy: dateData.getFullYear(),
+    MM: pad(dateData.getMonth() + 1),
+    dd: pad(dateData.getDate()),
+    HH: pad(dateData.getHours()),
+    hh: pad(dateData.getHours() % 12 || 12),
+    mm: pad(dateData.getMinutes()),
+    ss: pad(dateData.getSeconds()),
+    dddd: weekdays[dateData.getDay()],
+  };
+
+  result = format.replace(
+    /yyyy|MM|dd|HH|hh|mm|ss|dddd/g,
+    token => map[token]
+  );
+  return `${result} ${comment}`;
+}
+
+
 // ============================================================================
