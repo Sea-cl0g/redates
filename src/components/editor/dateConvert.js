@@ -36,7 +36,7 @@ function convertMarkdownText(message, date) {
     const parsed = parseDateLine(raw, dict);
     console.log(parsed);
     if (parsed != null) {
-      result.push(formatDate(parsed));
+      result.push(formatDate(parsed, "yyyy年 MM月"));
     }
     i++;
   }
@@ -122,36 +122,21 @@ function parseDateLine(line, dict) {
   return { dateData, comment };
 }
 
-function formatDate({ dateData, comment, useYear }) {
-  const month = dateData.getMonth() + 1;
-  const date = dateData.getDate();
-  const day = useYear ? `(${dateData.getDay()})` : '';
-  const commentText = !comment ? "" : `${comment}`;
-  return `- ${month}月${date}日${day} ${commentText}`;
-}
-
-/*
-function formatDate({ dateData, comment, useYear }, format) {
-  const pad = (num, len = 2) => String(num).padStart(len, "0");
+function formatDate({ dateData, comment }, format) {
   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 
   const map = {
     yyyy: dateData.getFullYear(),
-    MM: pad(dateData.getMonth() + 1),
-    dd: pad(dateData.getDate()),
-    HH: pad(dateData.getHours()),
-    hh: pad(dateData.getHours() % 12 || 12),
-    mm: pad(dateData.getMinutes()),
-    ss: pad(dateData.getSeconds()),
-    dddd: weekdays[dateData.getDay()],
+    MM: dateData.getMonth() + 1,
+    dd: dateData.getDate(),
+    ddd: weekdays[dateData.getDay()],
   };
 
-  result = format.replace(
-    /yyyy|MM|dd|HH|hh|mm|ss|dddd/g,
+  const result = format.replace(
+    /yyyy|MM|dd|ddd/g,
     token => map[token]
   );
   return `${result} ${comment}`;
 }
-*/
 
 // ============================================================================
