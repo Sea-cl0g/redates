@@ -92,7 +92,6 @@ function parseDateLine(line, dict) {
 
   let dateData;
   let comment;
-  let useYear = true;
 
   if (match[3] && /^\d{2,4}$/.test(match[3])) {
     // 年が指定
@@ -103,29 +102,15 @@ function parseDateLine(line, dict) {
   } else {
     // 年が未指定
     const now = new Date();
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // 今日(0:00)
-    const currentYear = now.getFullYear();
-    const candidateCurrent = new Date(currentYear, month - 1, day);
+    let year = now.getFullYear();
+    let tmp = new Date(year, month - 1, day);
 
-    const thirtyDaysAgo = new Date(todayStart);
-    thirtyDaysAgo.setDate(todayStart.getDate() - 30);
-
-    let candidate = candidateCurrent;
-    if (candidate > todayStart) {
-      const prevYearCandidate = new Date(currentYear - 1, month - 1, day);
-      if (prevYearCandidate >= thirtyDaysAgo && prevYearCandidate < todayStart) {
-        candidate = prevYearCandidate;
-      }
+    if (tmp < now) {
+      year += 1;
+      tmp = new Date(year, month - 1, day);
     }
 
-    if (candidate >= thirtyDaysAgo && candidate < todayStart) {
-      dateData = candidate;
-      useYear = false;
-    } else if (candidate < todayStart) {
-      dateData = new Date(currentYear + 1, month - 1, day);
-    } else {
-      dateData = candidate;
-    }
+    dateData = tmp;
     comment = match[4];
   }
 
@@ -134,7 +119,7 @@ function parseDateLine(line, dict) {
     comment = key in dict ? (dict[key]?.trim() ?? "") : key;
   }
 
-  return { dateData, comment, useYear };
+  return { dateData, comment };
 }
 
 function formatDate({ dateData, comment, useYear }) {
