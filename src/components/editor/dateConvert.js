@@ -133,7 +133,7 @@ function formatDate({ dateData, comment }, format) {
   };
 
   const result = format.replace(
-    /yyyy|MM|dd|ddd/g,
+    /yyyy|ddd|MM|dd/g,
     token => map[token]
   );
   return `${result} ${comment}`;
