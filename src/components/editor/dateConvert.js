@@ -37,7 +37,6 @@ function convertMarkdownText(message, date) {
   while (lines[i] && lines[i].startsWith("- ")) {
     const raw = lines[i].slice(2).trim();
     const parsed = parseDateLine(raw, dict);
-    console.log(parsed);
     if (parsed != null) {
       result.push(formatDate(parsed, format));
     }
@@ -101,7 +100,7 @@ function parseDateLine(line, dict) {
     let year = Number(match[3]);
     if (year < 100) year += 2000;
     dateData = new Date(year, month - 1, day);
-    comment = match[4];
+    comment = match[4] ?? "";
   } else {
     // 年が未指定
     const now = new Date();
@@ -114,13 +113,11 @@ function parseDateLine(line, dict) {
     }
 
     dateData = tmp;
-    comment = match[4];
+    comment = match[4] ?? "";
   }
 
-  if (comment) {
-    const key = comment.trim();
-    comment = key in dict ? (dict[key]?.trim() ?? "") : key;
-  }
+  const key = comment.trim();
+  comment = key in dict ? (dict[key]?.trim() ?? "") : key;
 
   return { dateData, comment };
 }
