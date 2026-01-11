@@ -30,13 +30,16 @@ function convertMarkdownText(message, date) {
   const dateIndex = finfDateList(lines);
   if (dateIndex == -1) return "no Date";
 
+  const defaultFormat = "MM/dd(ddd)"
+  const format = "format" in dict ? (dict["format"]?.trim() ?? defaultFormat) : defaultFormat;
+
   let i = dateIndex + 1;
   while (lines[i] && lines[i].startsWith("- ")) {
     const raw = lines[i].slice(2).trim();
     const parsed = parseDateLine(raw, dict);
     console.log(parsed);
     if (parsed != null) {
-      result.push(formatDate(parsed, "yyyy年 MM月"));
+      result.push(formatDate(parsed, format));
     }
     i++;
   }
