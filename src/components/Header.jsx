@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { GithubOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Flex, Typography, Tooltip, Modal } from 'antd';
-const { Title } = Typography;
+const { Title, Text, link } = Typography;
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -50,14 +50,12 @@ export default function Header() {
         </Flex>
       </Flex>
       <Modal
-        title="README.md"
+        title="About Re:dates"
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
         loading={loading}
         footer={
-          <Flex>
-            
-          </Flex>
+          <p>View source on <a href="https://github.com/Sea-cl0g/redates">GitHub</a></p>
         }
         width={800}
         styles={{ body: { maxHeight: '60vh', overflowY: 'auto' } }}
