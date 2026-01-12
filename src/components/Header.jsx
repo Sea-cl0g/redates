@@ -55,7 +55,7 @@ export default function Header() {
         onCancel={() => setIsModalOpen(false)}
         loading={loading}
         footer={
-          <p>View source on <a href="https://github.com/Sea-cl0g/redates">GitHub</a></p>
+          <p>View source on <a href="https://github.com/Sea-cl0g/redates">GitHub</a>.</p>
         }
         width={800}
         styles={{ body: { maxHeight: '60vh', overflowY: 'auto' } }}
