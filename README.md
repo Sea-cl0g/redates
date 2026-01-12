@@ -84,13 +84,8 @@ The source code is licensed under the [AGPL](https://www.gnu.org/licenses/agpl-3
 
 <br>
 
-## 📚Author
-### **ぼーまんのう**
-
-[<img width="104" alt="icon_driller" src="https://github.com/user-attachments/assets/283de1f1-3d91-4186-a3ac-45fb3b32b4a3">]()
-> 何も知りません。糸球体と合わさると腎小体になります。
-#### -*follow me!!*-
-
-[<img width="32" alt="github-mark" src="https://github.com/user-attachments/assets/aac2e70c-0694-49e9-8648-1970c08a57bd">](https://github.com/Sea-cl0g)
-[<img width="32" alt="x-logo-black" src="https://github.com/user-attachments/assets/dc730c9f-8d64-493f-a78c-ff7206166759">](https://x.com/boo_manKnow408)
-[<img width="32" alt="qiita-icon" src="https://github.com/user-attachments/assets/7ee1aa97-82b1-49b8-8e2b-1c2a0c0dc613">](https://qiita.com/boo_manKnow)
+## 😏Contributors
+- ぼーまんのう
+[<img width="16" alt="github-mark" src="https://github.com/user-attachments/assets/aac2e70c-0694-49e9-8648-1970c08a57bd">](https://github.com/Sea-cl0g)
+[<img width="16" alt="x-logo-black" src="https://github.com/user-attachments/assets/dc730c9f-8d64-493f-a78c-ff7206166759">](https://x.com/boo_manKnow408)
+[<img width="16" alt="qiita-image" src="https://github.com/user-attachments/assets/7ee1aa97-82b1-49b8-8e2b-1c2a0c0dc613">](https://qiita.com/boo_manKnow)
