@@ -79,8 +79,8 @@ AI機能は以下の環境で動作確認済みです。
 <br>
 
 ## 🪪Licence
-The source code is licensed under the [AGPL](https://www.gnu.org/licenses/agpl-3.0.html).
-> ソースコードのライセンスは[AGPL](https://www.gnu.org/licenses/agpl-3.0.html)です。
+ソースコードのライセンスは[AGPL](https://www.gnu.org/licenses/agpl-3.0.html)です。<br>
+(The source code is licensed under the [AGPL](https://www.gnu.org/licenses/agpl-3.0.html).)
 
 <br>
 
