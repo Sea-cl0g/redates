@@ -1,9 +1,30 @@
-import React from 'react';
+import { useState } from 'react';
 import { GithubOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import { Button, Flex, Typography, Tooltip } from 'antd';
+import { Button, Flex, Typography, Tooltip, Modal } from 'antd';
 const { Title } = Typography;
 
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from 'rehype-raw';
+
 export default function Header() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [readmeContent, setReadmeContent] = useState('');
+  const [loading, setLoading] = useState(true);
+  const showModal = async () => {
+    setLoading(true);
+    setIsModalOpen(true);
+    try {
+      const response = await fetch('../../README.md');
+      const text = await response.text();
+      setReadmeContent(text);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <header>
       <Flex justify="space-between" align="center">
@@ -14,9 +35,7 @@ export default function Header() {
               shape="circle"
               icon={<QuestionCircleOutlined />}
               size="large"
-              href=""
-              target="_blank"
-              disabled="true"
+              onClick={showModal}
             />
           </Tooltip>
           <Tooltip title="GitHub">
@@ -30,6 +49,36 @@ export default function Header() {
           </Tooltip>
         </Flex>
       </Flex>
+      <Modal
+        title="README.md"
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        loading={loading}
+        footer={
+          <Flex>
+            
+          </Flex>
+        }
+        width={800}
+        styles={{ body: { maxHeight: '60vh', overflowY: 'auto' } }}
+      >
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeRaw]}
+          components={{
+            img: ({ node, ...props }) => (
+              <img
+                {...props}
+                src={props.src || ''}
+                alt={props.alt || ''}
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />
+            ),
+          }}
+        >
+          {readmeContent}
+        </ReactMarkdown>
+      </Modal>
     </header >
   );
 }
