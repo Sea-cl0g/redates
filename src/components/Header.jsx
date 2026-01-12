@@ -30,7 +30,7 @@ export default function Header() {
       <Flex justify="space-between" align="center">
         <Title>Re:dates</Title>
         <Flex gap="small" wrap>
-          <Tooltip title="Question">
+          <Tooltip title="About">
             <Button
               shape="circle"
               icon={<QuestionCircleOutlined />}
