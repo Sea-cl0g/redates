@@ -8,7 +8,6 @@ import { convertText } from './dateConvert';
 
 export default function Editor() {
   const [sizes, setSizes] = React.useState(['50%', '50%']);
-  const [enabled, setEnabled] = React.useState(true);
   const [convertedText, setConvertedText] = React.useState('');
   const [inputMessage, setInputMessage] = React.useState('');
   const [inputText, setInputText] = React.useState('');
@@ -28,7 +27,7 @@ export default function Editor() {
         onResize={setSizes}
         style={{ flex: 1, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
       >
-        <Splitter.Panel size={sizes[0]} resizable={enabled}>
+        <Splitter.Panel size={sizes[0]}>
           <EditorInput onInputChange={onInputChange} />
         </Splitter.Panel>
         <Splitter.Panel size={sizes[1]}>
@@ -41,12 +40,7 @@ export default function Editor() {
         </Splitter.Panel>
       </Splitter>
       <Flex gap="middle" justify="space-between">
-        <Switch
-          value={enabled}
-          onChange={() => setEnabled(!enabled)}
-          checkedChildren="Enabled"
-          unCheckedChildren="Disabled"
-        />
+        <Text></Text>
         <Text type="secondary">左上にショートメッセージ、その下に日程を記述するとそれっぽいメッセージに変換されます。</Text>
         <Button onClick={() => setSizes(['50%', '50%'])}>Reset</Button>
       </Flex>

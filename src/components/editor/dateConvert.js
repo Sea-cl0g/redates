@@ -30,13 +30,15 @@ function convertMarkdownText(message, date) {
   const dateIndex = finfDateList(lines);
   if (dateIndex == -1) return "no Date";
 
+  const defaultFormat = "MM/dd(ddd)"
+  const format = "format" in dict ? (dict["format"]?.trim() ?? defaultFormat) : defaultFormat;
+
   let i = dateIndex + 1;
   while (lines[i] && lines[i].startsWith("- ")) {
     const raw = lines[i].slice(2).trim();
     const parsed = parseDateLine(raw, dict);
-    console.log(parsed);
     if (parsed != null) {
-      result.push(formatDate(parsed));
+      result.push(formatDate(parsed, format));
     }
     i++;
   }
@@ -92,81 +94,49 @@ function parseDateLine(line, dict) {
 
   let dateData;
   let comment;
-  let useYear = true;
 
   if (match[3] && /^\d{2,4}$/.test(match[3])) {
     // 年が指定
     let year = Number(match[3]);
     if (year < 100) year += 2000;
     dateData = new Date(year, month - 1, day);
-    comment = match[4];
+    comment = match[4] ?? "";
   } else {
     // 年が未指定
     const now = new Date();
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // 今日(0:00)
-    const currentYear = now.getFullYear();
-    const candidateCurrent = new Date(currentYear, month - 1, day);
+    let year = now.getFullYear();
+    let tmp = new Date(year, month - 1, day);
 
-    const thirtyDaysAgo = new Date(todayStart);
-    thirtyDaysAgo.setDate(todayStart.getDate() - 30);
-
-    let candidate = candidateCurrent;
-    if (candidate > todayStart) {
-      const prevYearCandidate = new Date(currentYear - 1, month - 1, day);
-      if (prevYearCandidate >= thirtyDaysAgo && prevYearCandidate < todayStart) {
-        candidate = prevYearCandidate;
-      }
+    if (tmp < now) {
+      year += 1;
+      tmp = new Date(year, month - 1, day);
     }
 
-    if (candidate >= thirtyDaysAgo && candidate < todayStart) {
-      dateData = candidate;
-      useYear = false;
-    } else if (candidate < todayStart) {
-      dateData = new Date(currentYear + 1, month - 1, day);
-    } else {
-      dateData = candidate;
-    }
-    comment = match[4];
+    dateData = tmp;
+    comment = match[4] ?? "";
   }
 
-  if (comment) {
-    const key = comment.trim();
-    comment = key in dict ? (dict[key]?.trim() ?? "") : key;
-  }
+  const key = comment.trim();
+  comment = key in dict ? (dict[key]?.trim() ?? "") : key;
 
-  return { dateData, comment, useYear };
+  return { dateData, comment };
 }
 
-function formatDate({ dateData, comment, useYear }) {
-  const month = dateData.getMonth() + 1;
-  const date = dateData.getDate();
-  const day = useYear ? `(${dateData.getDay()})` : '';
-  const commentText = !comment ? "" : `${comment}`;
-  return `- ${month}月${date}日${day} ${commentText}`;
-}
-
-/*
-function formatDate({ dateData, comment, useYear }, format) {
-  const pad = (num, len = 2) => String(num).padStart(len, "0");
+function formatDate({ dateData, comment }, format) {
   const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
 
   const map = {
     yyyy: dateData.getFullYear(),
-    MM: pad(dateData.getMonth() + 1),
-    dd: pad(dateData.getDate()),
-    HH: pad(dateData.getHours()),
-    hh: pad(dateData.getHours() % 12 || 12),
-    mm: pad(dateData.getMinutes()),
-    ss: pad(dateData.getSeconds()),
-    dddd: weekdays[dateData.getDay()],
+    MM: dateData.getMonth() + 1,
+    dd: dateData.getDate(),
+    ddd: weekdays[dateData.getDay()],
   };
 
-  result = format.replace(
-    /yyyy|MM|dd|HH|hh|mm|ss|dddd/g,
+  const result = format.replace(
+    /yyyy|ddd|MM|dd/g,
     token => map[token]
   );
   return `${result} ${comment}`;
 }
-*/
 
 // ============================================================================
