@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { GithubOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import { Button, Flex, Typography, Tooltip, Modal } from 'antd';
-const { Title, Text, link } = Typography;
+import { Button, Flex, Tooltip, Modal } from 'antd';
+
+import '../styles/font.css';
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -28,7 +29,12 @@ export default function Header() {
   return (
     <header>
       <Flex justify="space-between" align="center">
-        <Title>Re:dates</Title>
+        <h1
+          onClick={() => window.location.reload()}
+          style={{ cursor: 'pointer' }}
+        >
+          Re:dates
+        </h1>
         <Flex gap="small" wrap>
           <Tooltip title="About">
             <Button
@@ -72,6 +78,20 @@ export default function Header() {
                 style={{ maxWidth: '100%', height: 'auto' }}
               />
             ),
+            pre: ({ node, children, ...props }) => (
+              <pre
+                style={{
+                  backgroundColor: '#f5f5f5',
+                  padding: 16,
+                  borderRadius: 6,
+                  overflowX: 'auto',
+                  border: '1px solid #e0e0e0'
+                }}
+                {...props}
+              >
+                {children}
+              </pre>
+            )
           }}
         >
           {readmeContent}
