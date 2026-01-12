@@ -7,9 +7,8 @@ import { keymap } from "@codemirror/view";
 import { Prec } from '@codemirror/state';
 import ReactCodeMirror from "@uiw/react-codemirror";
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Input, Flex, Tabs, Divider } from 'antd';
-
 
 // ============================================================================ //
 
@@ -67,7 +66,7 @@ function EditorInputDate({ onInputChange }) {
         setDateContent(date);
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         onInputChange(defaultVal, tabValue);
     }, []);
 

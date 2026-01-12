@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, Flex, Splitter, Switch, Typography } from 'antd';
+import { useState } from 'react';
+import { Button, Flex, Splitter, Typography } from 'antd';
 const { Text } = Typography;
 
 import EditorInput from "./EditorInput";
@@ -7,11 +7,11 @@ import EditorOutput from './EditorOutput';
 import { convertText } from './dateConvert';
 
 export default function Editor() {
-  const [sizes, setSizes] = React.useState(['50%', '50%']);
-  const [convertedText, setConvertedText] = React.useState('');
-  const [inputMessage, setInputMessage] = React.useState('');
-  const [inputText, setInputText] = React.useState('');
-  const [inputLang, setInputLang] = React.useState('1');
+  const [sizes, setSizes] = useState(['50%', '50%']);
+  const [convertedText, setConvertedText] = useState('');
+  const [inputMessage, setInputMessage] = useState('');
+  const [inputText, setInputText] = useState('');
+  const [inputLang, setInputLang] = useState('1');
 
   const onInputChange = (message, date, lang) => {
     setInputMessage(message);
@@ -22,7 +22,7 @@ export default function Editor() {
   };
 
   return (
-    <Flex vertical gap="middle"  style={{flex: 1}}>
+    <Flex vertical gap="middle" style={{ flex: 1 }}>
       <Splitter
         onResize={setSizes}
         style={{ flex: 1, boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
