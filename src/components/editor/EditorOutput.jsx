@@ -53,6 +53,9 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     const [tone, setTone] = useState('');
     const [format, setFormat] = useState('');
     const [length, setLength] = useState('');
+    const [expectedInputLanguages, setExpectedInputLanguages] = useState([]);
+    const [expectedContextLanguages, setExpectedContextLanguages] = useState([]);
+    const [outputLanguage, setOutputLanguage] = useState('');
     const [sharedContext, setSharedContext] = useState('');
     // Modal
     const showModal = async () => {
@@ -61,6 +64,9 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
         setTone(currentOptions.tone);
         setFormat(currentOptions.format);
         setLength(currentOptions.length);
+        setExpectedInputLanguages(currentOptions.expectedInputLanguages);
+        setExpectedContextLanguages(currentOptions.expectedContextLanguages);
+        setOutputLanguage(currentOptions.outputLanguage);
         setSharedContext(currentOptions.sharedContext);
         setIsModalOpen(true);
     };
@@ -95,6 +101,15 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
         setLength(value);
     };
     // AI Languages
+    const onExpectedInputLanguagesChanged = value => {
+        setExpectedInputLanguages(value);
+    };
+    const onExpectedContextLanguages = value => {
+        setExpectedContextLanguages(value);
+    };
+    const onOutputLanguage = value => {
+        setOutputLanguage(value);
+    };
     const handleChange = value => {
         console.log(`selected ${value}`);
     };
@@ -192,8 +207,8 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                             allowClear
                             style={{ width: '50%' }}
                             placeholder="input search language"
-                            defaultValue={defaultLanguagesMap}
-                            onChange={handleChange}
+                            defaultValue={expectedInputLanguages}
+                            onChange={onExpectedInputLanguagesChanged}
                             options={allLanguagesMap}
                         />
                     </Flex>
@@ -205,8 +220,8 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                             allowClear
                             style={{ width: '50%' }}
                             placeholder="input search language"
-                            defaultValue={defaultLanguagesMap}
-                            onChange={handleChange}
+                            defaultValue={expectedContextLanguages}
+                            onChange={onExpectedContextLanguages}
                             options={allLanguagesMap}
                         />
                     </Flex>
@@ -216,9 +231,9 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                         <Select
                             style={{ width: '50%' }}
                             placeholder="input search language"
-                            defaultValue={primaryLanguage}
+                            defaultValue={outputLanguage}
                             showSearch
-                            onChange={handleChange}
+                            onChange={onOutputLanguage}
                             options={allLanguagesMap}
                         />
                     </Flex>

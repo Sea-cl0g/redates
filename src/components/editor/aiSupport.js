@@ -42,6 +42,7 @@ export async function checkRewriterAPI() {
 export async function rewriteText(inputText, onUpdate) {
     let rewriter;
     let result = '';
+    console.log(options);
     try {
         rewriter = await self.Rewriter.create(options);
 
