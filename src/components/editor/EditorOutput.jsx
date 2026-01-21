@@ -306,7 +306,8 @@ function EditorOutputFooter({ convertedText }) {
         var downloadUrl = urlAPI.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = downloadUrl;
-        a.download = "schedule.txt";
+        const dateData = new Date();
+        a.download = `schedule-${dateData.getFullYear()}-${dateData.getMonth() + 1}-${dateData.getDate()}-${dateData.getHours()}${dateData.getMinutes()}.txt`;
 
         try {
             a.click();
