@@ -3,7 +3,6 @@ import { DownloadOutlined, CopyOutlined, AntDesignOutlined, ToolOutlined } from 
 import { createStyles } from 'antd-style';
 import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input, Select } from 'antd';
 import ISO6391 from 'iso-639-1';
-import { languages } from '@codemirror/language-data';
 const { Text } = Typography;
 const { TextArea } = Input;
 
