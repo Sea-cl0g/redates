@@ -121,12 +121,6 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
             });
         };
         loadOptions();
-        const aaa = async () => {
-            const { getOptions } = await import('./aiSupport');
-            const s = getOptions();
-            console.log(s);
-        };
-        aaa();
     }, []);
 
     return (
