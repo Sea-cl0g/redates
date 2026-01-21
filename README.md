@@ -62,6 +62,8 @@ yyyy年 MM月dd日(ddd)
 ### 2. Gemini Nano による文章化
 ブラウザ内蔵の AI 機能を使い、箇条書きの予定を自然な文章に変換します。
 
+<br>
+
 ---
 
 ## 💡Requirement
@@ -76,11 +78,15 @@ AI機能は以下の環境で動作確認済みです。
 
 ※ AIの初期起動時は通常より出力に時間がかかる場合があります。
 
+<br>
+
 ---
 
 ## 🪪Licence
 ソースコードのライセンスは[AGPL](https://www.gnu.org/licenses/agpl-3.0.html)です。<br>
 (The source code is licensed under the [AGPL](https://www.gnu.org/licenses/agpl-3.0.html).)
+
+<br>
 
 ---
 
