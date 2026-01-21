@@ -16,9 +16,9 @@ function array2selecterMapArray(array) {
 }
 const allLanguages = ISO6391.getAllCodes();
 const browserLanguages = navigator.languages;
-const defaultLanguagesMap = array2selecterMapArray(browserLanguages.filter(element => allLanguages.includes(element)));
 const allLanguagesMap = array2selecterMapArray(allLanguages);
-const primaryLanguageMap = navigator.language;
+const defaultLanguagesMap = array2selecterMapArray(browserLanguages.filter(element => allLanguages.includes(element)));
+const primaryLanguage = navigator.language;
 
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
