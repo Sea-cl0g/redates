@@ -201,7 +201,7 @@ function EditorOutputMain({ convertedText }) {
 
 function EditorOutputFooter({ convertedText }) {
     const [copyTooltip, setCopyTooltip] = useState("Copy");
-    const [Downloadtip, setDownloadtip] = useState("Download");
+    const [Downloadtip, setDownloadTooltip] = useState("Download");
     const onCopyClicked = () => {
         navigator.clipboard.writeText(convertedText)
             .then(() => {
@@ -222,16 +222,15 @@ function EditorOutputFooter({ convertedText }) {
         a.href = downloadUrl;
         a.download = "schedule.txt";
 
-        a.click()
-            .then(() => {
-                setCopyTooltip("Downloaded!");
-                setTimeout(() => setCopyTooltip("Download"), 2000);
-            })
-            .catch(() => {
-                console.log("Failed to download", convertedText);
-                setCopyTooltip("Failed to download");
-                setTimeout(() => setCopyTooltip("Download"), 2000);
-            });
+        try {
+            a.click();
+            setDownloadTooltip("Downloaded!");
+            setTimeout(() => setDownloadTooltip("Download"), 2000);
+        } catch (error) {
+            console.log("Failed to download", convertedText);
+            setDownloadTooltip("Failed to download");
+            setTimeout(() => setDownloadTooltip("Download"), 2000);
+        }
     };
 
     return (
@@ -245,7 +244,7 @@ function EditorOutputFooter({ convertedText }) {
                     onClick={onCopyClicked}
                 />
             </Tooltip>
-            <Tooltip title="Download">
+            <Tooltip title={Downloadtip}>
                 <Button
                     shape="circle"
                     icon={<DownloadOutlined />}
