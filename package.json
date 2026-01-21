@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "VITE_COMMIT_REF=$COMMIT_REF vite build",
+    "build": "VITE_COMMIT_REF=$COMMIT_REF VITE_REPOSITORY_URL=$REPOSITORY_URL VITE_DEPLOYED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ) vite build",
     "preview": "vite preview"
   },
   "keywords": [],
