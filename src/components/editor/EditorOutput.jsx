@@ -50,6 +50,9 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
 function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
     const { styles } = useStyle();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [tone, setTone] = useState('more-formal');
+    const [format, setFormat] = useState('as-is');
+    const [length, setLength] = useState('as-is');
     const [value, setValue] = useState('');
     // Modal
     const showModal = async () => {
@@ -67,7 +70,9 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                 tone,
                 format,
                 length,
-                sharedContext: value
+                expectedInputLanguages,
+                expectedContextLanguages,
+                outputLanguage,
             });
         });
         setIsModalOpen(false);
@@ -77,20 +82,18 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     };
     // Prompt
     // Tone
-    const [tone, setTone] = useState('more-formal');
     const onToneChanged = ({ target: { value } }) => {
         setTone(value);
     };
     // Format
-    const [format, setFormat] = useState('as-is');
     const onFormatChanged = ({ target: { value } }) => {
         setFormat(value);
     };
     // Length
-    const [length, setLength] = useState('as-is');
     const onLengthChanged = ({ target: { value } }) => {
         setLength(value);
     };
+    // AI Languages
     const handleChange = value => {
         console.log(`selected ${value}`);
     };
