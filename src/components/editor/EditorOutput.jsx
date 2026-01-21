@@ -13,12 +13,11 @@ const lengthList = ['shorter', 'as-is', 'longer'];
 function array2selecterMapArray(array) {
     return array.map(val => ({ label: val, value: val }));
 }
-const allLanguages = ISO6391.getAllCodes();
+const allLanguages = ['en', 'ja', 'es'];
 const browserLanguages = navigator.languages;
 const allLanguagesMap = array2selecterMapArray(allLanguages);
 const defaultLanguagesMap = array2selecterMapArray(browserLanguages.filter(element => allLanguages.includes(element)));
 const primaryLanguage = navigator.language;
-
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
