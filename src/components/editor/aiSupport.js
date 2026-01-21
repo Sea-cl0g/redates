@@ -1,7 +1,7 @@
 const options = {
     tone: 'as-is',
-    length: 'as-is',
-    format: 'as-is',
+    format: 'plain-text',
+    length: 'shorter',
     sharedContext: '日本語で出力してください'
 }
 
