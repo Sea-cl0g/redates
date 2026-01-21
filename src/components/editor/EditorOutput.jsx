@@ -14,10 +14,13 @@ function array2selecterMapArray(array) {
     return array.map(val => ({ label: val, value: val }));
 }
 const allLanguages = ['en', 'ja', 'es'];
-const browserLanguages = navigator.languages;
+const normalizeLang = lang => lang.split('-')[0];
+const browserLanguages = navigator.languages.map(normalizeLang);
+const primaryLanguage = normalizeLang(navigator.language);
+
 const allLanguagesMap = array2selecterMapArray(allLanguages);
-const defaultLanguages = browserLanguages.filter(element => allLanguages.includes(element));
-const primaryLanguage = allLanguages.includes(navigator.language) ? navigator.language : 'en';
+const defaultLanguages = Array.from(new Set(browserLanguages.filter(element => allLanguages.includes(element))));
+const defaultOutputLanguage = allLanguages.includes(primaryLanguage) ? primaryLanguage : 'en';
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
@@ -114,7 +117,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
             updateOptions({
                 expectedInputLanguages: defaultLanguages,
                 expectedContextLanguages: defaultLanguages,
-                outputLanguage: primaryLanguage
+                outputLanguage: defaultOutputLanguage
             });
         };
         loadOptions();
