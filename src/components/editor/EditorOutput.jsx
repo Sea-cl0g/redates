@@ -243,7 +243,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                     <TextArea
                         value={sharedContext}
                         onChange={e => setSharedContext(e.target.value)}
-                        placeholder="In Japanese."
+                        placeholder="Inout text"
                         autoSize={{ minRows: 3, maxRows: 5 }}
                     />
                 </Flex>
