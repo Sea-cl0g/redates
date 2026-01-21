@@ -1,13 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DownloadOutlined, CopyOutlined, AntDesignOutlined, ToolOutlined } from '@ant-design/icons';
-import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input } from 'antd';
+import { createStyles } from 'antd-style';
+import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input, Select } from 'antd';
 const { Text } = Typography;
 const { TextArea } = Input;
 
-import { createStyles } from 'antd-style';
 const toneList = ['more-formal', 'as-is', 'more-casual'];
 const formatList = ['markdown', 'as-is', 'plain-text'];
 const lengthList = ['shorter', 'as-is', 'longer'];
+
+function array2selecterMapArray(array) {
+    return array.map(val => ({ label: val, value: val }));
+}
+const allLanguages = ['en', 'ja', 'es'];
+const normalizeLang = lang => lang.split('-')[0];
+const browserLanguages = navigator.languages.map(normalizeLang);
+const primaryLanguage = normalizeLang(navigator.language);
+
+const allLanguagesMap = array2selecterMapArray(allLanguages);
+const defaultLanguages = Array.from(new Set(browserLanguages.filter(element => allLanguages.includes(element))));
+const defaultOutputLanguage = allLanguages.includes(primaryLanguage) ? primaryLanguage : 'en';
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
@@ -39,7 +51,14 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
 function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
     const { styles } = useStyle();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [value, setValue] = useState('');
+    const [tone, setTone] = useState('');
+    const [format, setFormat] = useState('');
+    const [length, setLength] = useState('');
+    const [expectedInputLanguages, setExpectedInputLanguages] = useState([]);
+    const [expectedContextLanguages, setExpectedContextLanguages] = useState([]);
+    const [outputLanguage, setOutputLanguage] = useState('');
+    const [sharedContext, setSharedContext] = useState('');
+
     // Modal
     const showModal = async () => {
         const { getOptions } = await import('./aiSupport');
@@ -47,38 +66,62 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
         setTone(currentOptions.tone);
         setFormat(currentOptions.format);
         setLength(currentOptions.length);
-        setValue(currentOptions.sharedContext);
+        setExpectedInputLanguages(currentOptions.expectedInputLanguages);
+        setExpectedContextLanguages(currentOptions.expectedContextLanguages);
+        setOutputLanguage(currentOptions.outputLanguage);
+        setSharedContext(currentOptions.sharedContext);
         setIsModalOpen(true);
     };
-    const handleOk = () => {
+    const handleCancel = () => {
         import('./aiSupport').then(({ updateOptions }) => {
             updateOptions({
                 tone,
                 format,
                 length,
-                sharedContext: value
+                expectedInputLanguages,
+                expectedContextLanguages,
+                outputLanguage,
+                sharedContext
             });
         });
         setIsModalOpen(false);
     };
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+    // Prompt
     // Tone
-    const [tone, setTone] = useState('more-formal');
     const onToneChanged = ({ target: { value } }) => {
         setTone(value);
     };
     // Format
-    const [format, setFormat] = useState('as-is');
     const onFormatChanged = ({ target: { value } }) => {
         setFormat(value);
     };
     // Length
-    const [length, setLength] = useState('as-is');
     const onLengthChanged = ({ target: { value } }) => {
         setLength(value);
     };
+    // AI Languages
+    const onExpectedInputLanguagesChanged = value => {
+        setExpectedInputLanguages(value);
+    };
+    const onExpectedContextLanguages = value => {
+        setExpectedContextLanguages(value);
+    };
+    const onOutputLanguage = value => {
+        setOutputLanguage(value);
+    };
+
+    useEffect(() => {
+        const loadOptions = async () => {
+            const { updateOptions } = await import('./aiSupport');
+            updateOptions({
+                expectedInputLanguages: defaultLanguages,
+                expectedContextLanguages: defaultLanguages,
+                outputLanguage: defaultOutputLanguage
+            });
+        };
+        loadOptions();
+    }, []);
+
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
@@ -121,8 +164,10 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                 title="Prompt Settings"
                 closable={{ 'aria-label': 'Custom Close Button' }}
                 open={isModalOpen}
-                onOk={handleOk}
                 onCancel={handleCancel}
+                footer={
+                    <p>See the <a href="https://developer.chrome.com/docs/ai/rewriter-api">Rewriter API Doc</a> for prompt details.</p>
+                }
             >
                 <Divider titlePlacement="start">Options</Divider>
                 <Flex vertical gap="small" style={{ padding: `0 5% 0 5%` }}>
@@ -163,12 +208,53 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                         />
                     </Flex>
                 </Flex>
+                <Divider titlePlacement="start">Languages</Divider>
+                <Flex vertical gap="small" style={{ padding: `0 5% 0 5%` }}>
+                    <Flex justify="space-between" align="center" >
+                        <Text>expectedInputLanguages</Text>
+                        <Divider vertical />
+                        <Select
+                            mode="multiple"
+                            allowClear
+                            style={{ width: '50%' }}
+                            placeholder="input search language"
+                            defaultValue={expectedInputLanguages}
+                            onChange={onExpectedInputLanguagesChanged}
+                            options={allLanguagesMap}
+                        />
+                    </Flex>
+                    <Flex justify="space-between" align="center" >
+                        <Text>expectedContextLanguages</Text>
+                        <Divider vertical />
+                        <Select
+                            mode="multiple"
+                            allowClear
+                            style={{ width: '50%' }}
+                            placeholder="input search language"
+                            defaultValue={expectedContextLanguages}
+                            onChange={onExpectedContextLanguages}
+                            options={allLanguagesMap}
+                        />
+                    </Flex>
+                    <Flex justify="space-between" align="center" >
+                        <Text>outputLanguage</Text>
+                        <Divider vertical />
+                        <Select
+                            style={{ width: '50%' }}
+                            placeholder="input search language"
+                            defaultValue={outputLanguage}
+                            showSearch
+                            onChange={onOutputLanguage}
+                            options={allLanguagesMap}
+                        />
+                    </Flex>
+                </Flex>
                 <Divider titlePlacement="start">sharedContext</Divider>
                 <Flex vertical style={{ padding: `0 5% 0 5%` }}>
                     <TextArea
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
-                        placeholder="In Japanese."
+                        value={sharedContext}
+                        onChange={e => setSharedContext(e.target.value)}
+                        placeholder="Inout text"
                         autoSize={{ minRows: 3, maxRows: 5 }}
                     />
                 </Flex>
