@@ -194,6 +194,31 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                             options={allLanguagesMap}
                         />
                     </Flex>
+                    <Flex justify="space-between" align="center" >
+                        <Text>expectedContextLanguages</Text>
+                        <Divider vertical />
+                        <Select
+                            mode="multiple"
+                            allowClear
+                            style={{ width: '50%' }}
+                            placeholder="input search language"
+                            defaultValue={defaultLanguagesMap}
+                            onChange={handleChange}
+                            options={allLanguagesMap}
+                        />
+                    </Flex>
+                    <Flex justify="space-between" align="center" >
+                        <Text>outputLanguage</Text>
+                        <Divider vertical />
+                        <Select
+                            style={{ width: '50%' }}
+                            placeholder="input search language"
+                            defaultValue={primaryLanguage}
+                            showSearch
+                            onChange={handleChange}
+                            options={allLanguagesMap}
+                        />
+                    </Flex>
                 </Flex>
                 <Divider titlePlacement="start">sharedContext</Divider>
                 <Flex vertical style={{ padding: `0 5% 0 5%` }}>
