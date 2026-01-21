@@ -108,9 +108,6 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     const onOutputLanguage = value => {
         setOutputLanguage(value);
     };
-    const handleChange = value => {
-        console.log(`selected ${value}`);
-    };
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
