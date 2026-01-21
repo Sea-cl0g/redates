@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { DownloadOutlined, CopyOutlined, AntDesignOutlined, ToolOutlined } from '@ant-design/icons';
 import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input, Select } from 'antd';
+import ISO6391 from 'iso-639-1';
 const { Text } = Typography;
 const { TextArea } = Input;
 
@@ -16,7 +17,7 @@ function array2selecterMapArray(array) {
     }
     return mapArray;
 }
-const allLanguages = array2selecterMapArray(navigator.languages);
+const allLanguages = array2selecterMapArray(ISO6391.getAllCodes());
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
