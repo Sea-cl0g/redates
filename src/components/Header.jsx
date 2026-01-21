@@ -1,3 +1,6 @@
+const rawdataURL = import.meta.env.VITE_REPOSITORY_URL?.replace("https://github.com", "");
+const refCommit = import.meta.env.VITE_COMMIT_REF;
+
 import { useState } from 'react';
 import { GithubOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Flex, Tooltip, Modal } from 'antd';
@@ -16,7 +19,9 @@ export default function Header() {
     setLoading(true);
     setIsModalOpen(true);
     try {
-      const response = await fetch('../../README.md');
+      const readmeSource = rawdataURL && refCommit ? `https://raw.githubusercontent.com${rawdataURL}/${refCommit}/README.md` : '../../README.md'
+      console.log(`README Source: ${readmeSource}`);
+      const response = await fetch(readmeSource);
       const text = await response.text();
       setReadmeContent(text);
     } catch (error) {
