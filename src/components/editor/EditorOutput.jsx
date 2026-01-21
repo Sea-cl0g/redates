@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { DownloadOutlined, CopyOutlined, AntDesignOutlined, ToolOutlined } from '@ant-design/icons';
-import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input } from 'antd';
+import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input, Select } from 'antd';
 const { Text } = Typography;
 const { TextArea } = Input;
 
@@ -8,6 +8,15 @@ import { createStyles } from 'antd-style';
 const toneList = ['more-formal', 'as-is', 'more-casual'];
 const formatList = ['markdown', 'as-is', 'plain-text'];
 const lengthList = ['shorter', 'as-is', 'longer'];
+
+function array2selecterMapArray(array) {
+    const mapArray = [];
+    for (const val of array) {
+        mapArray.push({ label: val, value: val });
+    }
+    return mapArray;
+}
+const allLanguages = array2selecterMapArray(navigator.languages);
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
@@ -64,6 +73,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+    // Prompt
     // Tone
     const [tone, setTone] = useState('more-formal');
     const onToneChanged = ({ target: { value } }) => {
@@ -78,6 +88,9 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     const [length, setLength] = useState('as-is');
     const onLengthChanged = ({ target: { value } }) => {
         setLength(value);
+    };
+    const handleChange = value => {
+        console.log(`selected ${value}`);
     };
     return (
         <Flex justify="space-between" align="center">
@@ -160,6 +173,20 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                             optionType="button"
                             buttonStyle="solid"
                             size="middle"
+                        />
+                    </Flex>
+                </Flex>
+                <Divider titlePlacement="start">Languages</Divider>
+                <Flex vertical gap="small" style={{ padding: `0 5% 0 5%` }}>
+                    <Flex justify="space-between" align="center" >
+                        <Text>Tone</Text>
+                        <Divider vertical />
+                        <Select
+                            mode="tags"
+                            style={{ width: '50%' }}
+                            placeholder="Tags Mode"
+                            onChange={handleChange}
+                            options={allLanguages}
                         />
                     </Flex>
                 </Flex>
