@@ -2,7 +2,10 @@ const options = {
     tone: 'as-is',
     format: 'plain-text',
     length: 'shorter',
-    sharedContext: '日本語で出力してください'
+    expectedInputLanguages: [],
+    expectedContextLanguages: [],
+    outputLanguage: "en",
+    sharedContext: ''
 }
 
 export function updateOptions(newOptions) {
