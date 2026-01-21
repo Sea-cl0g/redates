@@ -70,7 +70,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
         setSharedContext(currentOptions.sharedContext);
         setIsModalOpen(true);
     };
-    const handleOk = () => {
+    const handleCancel = () => {
         import('./aiSupport').then(({ updateOptions }) => {
             updateOptions({
                 tone,
@@ -82,9 +82,6 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                 sharedContext
             });
         });
-        setIsModalOpen(false);
-    };
-    const handleCancel = () => {
         setIsModalOpen(false);
     };
     // Prompt
@@ -155,8 +152,10 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                 title="Prompt Settings"
                 closable={{ 'aria-label': 'Custom Close Button' }}
                 open={isModalOpen}
-                onOk={handleOk}
                 onCancel={handleCancel}
+                footer={
+                    <p>See the <a href="https://developer.chrome.com/docs/ai/rewriter-api">Rewriter API Doc</a> for prompt details.</p>
+                }
             >
                 <Divider titlePlacement="start">Options</Divider>
                 <Flex vertical gap="small" style={{ padding: `0 5% 0 5%` }}>
