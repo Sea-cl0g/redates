@@ -1,9 +1,7 @@
-![header](https://github.com/user-attachments/assets/5d16ef6d-4cf2-4d1e-9e0d-3abb68c1a93f)
-
-<br>
-
 ## 📌Features
 [Re:dates](https://funny-douhua-0a291d.netlify.app/)は、箇条書きで書かれた予定やメモをもとに、日付・曜日付きの予定整理や文章化を行うためのツールです。
+
+![header](https://github.com/user-attachments/assets/5d16ef6d-4cf2-4d1e-9e0d-3abb68c1a93f)
 
 ### 1. 箇条書きベースの予定入力
 Markdown形式で日程を箇条書きすると、右側に整形された結果が出力されます。
@@ -62,9 +60,11 @@ yyyy年 MM月dd日(ddd)
 
 
 ### 2. Gemini Nano による文章化
-ブラウザ内蔵の AI 機能を使い、箇条書きの予定を自然な文章に変換します
+ブラウザ内蔵の AI 機能を使い、箇条書きの予定を自然な文章に変換します。
 
 <br>
+
+---
 
 ## 💡Requirement
 AI機能を利用するためには、Chromium系ブラウザでRewriter APIのフラグを有効化する必要があります。
@@ -76,13 +76,19 @@ AI機能は以下の環境で動作確認済みです。
 - **Google Chrome :** バージョン 143.0.7499.170（公式ビルド）
 - **Microsoft Edge :** バージョン 143.0.3650.96 (公式ビルド) 
 
+※ AIの初期起動時は通常より出力に時間がかかる場合があります。
+
 <br>
+
+---
 
 ## 🪪Licence
 ソースコードのライセンスは[AGPL](https://www.gnu.org/licenses/agpl-3.0.html)です。<br>
 (The source code is licensed under the [AGPL](https://www.gnu.org/licenses/agpl-3.0.html).)
 
 <br>
+
+---
 
 ## 😏Contributors
 - ぼーまんのう
