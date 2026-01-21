@@ -3,6 +3,7 @@ import { DownloadOutlined, CopyOutlined, AntDesignOutlined, ToolOutlined } from 
 import { createStyles } from 'antd-style';
 import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input, Select } from 'antd';
 import ISO6391 from 'iso-639-1';
+import { languages } from '@codemirror/language-data';
 const { Text } = Typography;
 const { TextArea } = Input;
 
@@ -17,7 +18,12 @@ function array2selecterMapArray(array) {
     }
     return mapArray;
 }
-const allLanguages = array2selecterMapArray(ISO6391.getAllCodes());
+const allLanguages = ISO6391.getAllCodes();
+const browserLanguages = navigator.languages;
+const defaultLanguagesMap = array2selecterMapArray(browserLanguages.filter(element => allLanguages.includes(element)));
+const allLanguagesMap = array2selecterMapArray(allLanguages);
+const primaryLanguageMap = navigator.language;
+
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
@@ -180,14 +186,16 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                 <Divider titlePlacement="start">Languages</Divider>
                 <Flex vertical gap="small" style={{ padding: `0 5% 0 5%` }}>
                     <Flex justify="space-between" align="center" >
-                        <Text>Tone</Text>
+                        <Text>expectedInputLanguages</Text>
                         <Divider vertical />
                         <Select
-                            mode="tags"
+                            mode="multiple"
+                            allowClear
                             style={{ width: '50%' }}
-                            placeholder="Tags Mode"
+                            placeholder="input search language"
+                            defaultValue={defaultLanguagesMap}
                             onChange={handleChange}
-                            options={allLanguages}
+                            options={allLanguagesMap}
                         />
                     </Flex>
                 </Flex>
