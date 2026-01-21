@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DownloadOutlined, CopyOutlined, AntDesignOutlined, ToolOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
 import { Flex, Switch, Typography, Button, ConfigProvider, Divider, Tooltip, message, Modal, Radio, Input, Select } from 'antd';
@@ -16,10 +16,8 @@ function array2selecterMapArray(array) {
 const allLanguages = ['en', 'ja', 'es'];
 const browserLanguages = navigator.languages;
 const allLanguagesMap = array2selecterMapArray(allLanguages);
-const defaultLanguagesMap = array2selecterMapArray(browserLanguages.filter(element => allLanguages.includes(element)));
+const defaultLanguages = browserLanguages.filter(element => allLanguages.includes(element));
 const primaryLanguage = allLanguages.includes(navigator.language) ? navigator.language : 'en';
-console.log(defaultLanguagesMap);
-console.log(primaryLanguage);
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
@@ -58,6 +56,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     const [expectedContextLanguages, setExpectedContextLanguages] = useState([]);
     const [outputLanguage, setOutputLanguage] = useState('');
     const [sharedContext, setSharedContext] = useState('');
+
     // Modal
     const showModal = async () => {
         const { getOptions } = await import('./aiSupport');
@@ -108,6 +107,25 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     const onOutputLanguage = value => {
         setOutputLanguage(value);
     };
+
+    useEffect(() => {
+        const loadOptions = async () => {
+            const { updateOptions } = await import('./aiSupport');
+            updateOptions({
+                expectedInputLanguages: defaultLanguages,
+                expectedContextLanguages: defaultLanguages,
+                outputLanguage: primaryLanguage
+            });
+        };
+        loadOptions();
+        const aaa = async () => {
+            const { getOptions } = await import('./aiSupport');
+            const s = getOptions();
+            console.log(s);
+        };
+        aaa();
+    }, []);
+
     return (
         <Flex justify="space-between" align="center">
             <Flex justify="flex-start" align="center" gap="small">
