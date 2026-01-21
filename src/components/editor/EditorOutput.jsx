@@ -166,7 +166,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                 open={isModalOpen}
                 onCancel={handleCancel}
                 footer={
-                    <p>See the <a href="https://developer.chrome.com/docs/ai/rewriter-api">Rewriter API Doc</a> for prompt details.</p>
+                    <p>See the <a href="https://developer.chrome.com/docs/ai/rewriter-api" target="_blank">Rewriter API Doc</a> for prompt details.</p>
                 }
             >
                 <Divider titlePlacement="start">Options</Divider>
