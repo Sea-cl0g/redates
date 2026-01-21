@@ -1,4 +1,4 @@
-export const commit = import.meta.env.COMMIT_REF;
+export const commit = import.meta.env.VITE_COMMIT_REF;
 console.log(commit);
 import { Flex, Typography } from 'antd';
 const { Text } = Typography;
