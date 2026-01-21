@@ -53,7 +53,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
     const [tone, setTone] = useState('more-formal');
     const [format, setFormat] = useState('as-is');
     const [length, setLength] = useState('as-is');
-    const [value, setValue] = useState('');
+    const [sharedContext, setSharedContext] = useState('');
     // Modal
     const showModal = async () => {
         const { getOptions } = await import('./aiSupport');
@@ -73,6 +73,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                 expectedInputLanguages,
                 expectedContextLanguages,
                 outputLanguage,
+                sharedContext
             });
         });
         setIsModalOpen(false);
@@ -225,8 +226,8 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
                 <Divider titlePlacement="start">sharedContext</Divider>
                 <Flex vertical style={{ padding: `0 5% 0 5%` }}>
                     <TextArea
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
+                        value={sharedContext}
+                        onChange={e => setSharedContext(e.target.value)}
                         placeholder="In Japanese."
                         autoSize={{ minRows: 3, maxRows: 5 }}
                     />
