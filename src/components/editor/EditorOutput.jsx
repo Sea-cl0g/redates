@@ -201,6 +201,7 @@ function EditorOutputMain({ convertedText }) {
 
 function EditorOutputFooter({ convertedText }) {
     const [copyTooltip, setCopyTooltip] = useState("Copy");
+    const [Downloadtip, setDownloadTooltip] = useState("Download");
     const onCopyClicked = () => {
         navigator.clipboard.writeText(convertedText)
             .then(() => {
@@ -212,6 +213,24 @@ function EditorOutputFooter({ convertedText }) {
                 setCopyTooltip("Failed to copy");
                 setTimeout(() => setCopyTooltip("Copy"), 2000);
             });
+    };
+    const onDownloadClicked = () => {
+        var blob = new Blob([convertedText], { type: "text/plain" });
+        var urlAPI = window.URL || window.webkitURL;
+        var downloadUrl = urlAPI.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = "schedule.txt";
+
+        try {
+            a.click();
+            setDownloadTooltip("Downloaded!");
+            setTimeout(() => setDownloadTooltip("Download"), 2000);
+        } catch (error) {
+            console.log("Failed to download", convertedText);
+            setDownloadTooltip("Failed to download");
+            setTimeout(() => setDownloadTooltip("Download"), 2000);
+        }
     };
 
     return (
@@ -225,13 +244,13 @@ function EditorOutputFooter({ convertedText }) {
                     onClick={onCopyClicked}
                 />
             </Tooltip>
-            <Tooltip title="Download">
+            <Tooltip title={Downloadtip}>
                 <Button
                     shape="circle"
                     icon={<DownloadOutlined />}
                     size="large"
-                    type="primary"
-                    disabled="true"
+                    type="default"
+                    onClick={onDownloadClicked}
                 />
             </Tooltip>
         </Flex>
