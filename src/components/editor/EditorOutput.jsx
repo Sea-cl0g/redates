@@ -50,9 +50,9 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
 function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerating }) {
     const { styles } = useStyle();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [tone, setTone] = useState('more-formal');
-    const [format, setFormat] = useState('as-is');
-    const [length, setLength] = useState('as-is');
+    const [tone, setTone] = useState('');
+    const [format, setFormat] = useState('');
+    const [length, setLength] = useState('');
     const [sharedContext, setSharedContext] = useState('');
     // Modal
     const showModal = async () => {
