@@ -61,7 +61,7 @@ function EditorOutputHeader({ isAiEnabled, setIsAiEnabled, onGenerate, isGenerat
         setTone(currentOptions.tone);
         setFormat(currentOptions.format);
         setLength(currentOptions.length);
-        setValue(currentOptions.sharedContext);
+        setSharedContext(currentOptions.sharedContext);
         setIsModalOpen(true);
     };
     const handleOk = () => {
