@@ -2,6 +2,10 @@ const repositoryURL = import.meta.env.VITE_COMMIT_REPOSITORY_URL;
 const refCommit = import.meta.env.VITE_COMMIT_REF;
 const deployedAt = import.meta.env.VITE_DEPLOYED_AT;
 
+console.log(repositoryURL);
+console.log(refCommit);
+console.log(deployedAt);
+
 const refCommitURL = `${repositoryURL}/commit/${refCommit}`;
 
 import { Flex, Typography } from 'antd';
