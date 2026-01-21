@@ -15,7 +15,7 @@ export default function Footer() {
   return (
     <footer>
       <Flex justify="space-between" align="center">
-        <Text>{repositoryURL && refCommit && deployedAt ? <p>Last deployed on {deployedAt} for commit <a href={refCommitURL}>{refCommit}</a>.</p> : "Build information is unavailable."}</Text>
+        <Text>{repositoryURL && refCommit && deployedAt ? <p>Last deployed on {deployedAt} for commit <a href={refCommitURL} target="_blank">{refCommit.slice(0, 8)}</a>.</p> : "Build information is unavailable."}</Text>
         <Text>日本大学文理学部情報科学科 Webプログラミングの演習課題 (宍戸佑匡 5424085)</Text>
       </Flex>
     </footer>
