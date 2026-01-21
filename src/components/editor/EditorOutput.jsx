@@ -17,7 +17,9 @@ const allLanguages = ['en', 'ja', 'es'];
 const browserLanguages = navigator.languages;
 const allLanguagesMap = array2selecterMapArray(allLanguages);
 const defaultLanguagesMap = array2selecterMapArray(browserLanguages.filter(element => allLanguages.includes(element)));
-const primaryLanguage = navigator.language;
+const primaryLanguage = allLanguages.includes(navigator.language) ? navigator.language : 'en';
+console.log(defaultLanguagesMap);
+console.log(primaryLanguage);
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
     linearGradientButton: css`
