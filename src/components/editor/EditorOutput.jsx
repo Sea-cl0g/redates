@@ -12,11 +12,7 @@ const formatList = ['markdown', 'as-is', 'plain-text'];
 const lengthList = ['shorter', 'as-is', 'longer'];
 
 function array2selecterMapArray(array) {
-    const mapArray = [];
-    for (const val of array) {
-        mapArray.push({ label: val, value: val });
-    }
-    return mapArray;
+    return array.map(val => ({ label: val, value: val }));
 }
 const allLanguages = ISO6391.getAllCodes();
 const browserLanguages = navigator.languages;
