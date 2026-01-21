@@ -307,7 +307,7 @@ function EditorOutputFooter({ convertedText }) {
         const a = document.createElement("a");
         a.href = downloadUrl;
         const dateData = new Date();
-        a.download = `schedule-${dateData.getFullYear()}-${dateData.getMonth() + 1}-${dateData.getDate()}-${dateData.getHours()}${dateData.getMinutes()}.txt`;
+        a.download = `schedule-${dateData.getFullYear()}-${String((dateData.getMonth() + 1)).padStart(2, '0')}-${String(dateData.getDate()).padStart(2, '0')}-${String(dateData.getHours()).padStart(2, '0')}${String(dateData.getMinutes()).padStart(2, '0')}.txt`;
 
         try {
             a.click();
