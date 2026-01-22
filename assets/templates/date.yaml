@@ -1,12 +1,12 @@
 dates:
 - date: $MONTH1/$DATE1
-  year: '2025'
+  year: '$YEAR1'
   comment: 10:00~12:00
 - date: $MONTH2/$DATE2
-  year: '2025'
+  year: '$YEAR2'
   comment: "*"
 - date: $MONTH3/$DATE3
-  year: '2025'
+  year: '$YEAR3'
   comment: "*"
 
 format: MM/dd (ddd)

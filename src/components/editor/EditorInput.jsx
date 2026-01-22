@@ -152,10 +152,13 @@ function EditorInputDate({ onInputChange }) {
         return template
             .replace("$MONTH1", `${nextDate1.getMonth() + 1}`)
             .replace("$DATE1", `${nextDate1.getDate()}`)
+            .replace("$YEAR1", `${nextDate1.getFullYear()}`)
             .replace("$MONTH2", `${nextDate2.getMonth() + 1}`)
             .replace("$DATE2", `${nextDate2.getDate()}`)
+            .replace("$YEAR2", `${nextDate2.getFullYear()}`)
             .replace("$MONTH3", `${nextDate3.getMonth() + 1}`)
-            .replace("$DATE3", `${nextDate3.getDate()}`);
+            .replace("$DATE3", `${nextDate3.getDate()}`)
+            .replace("$YEAR3", `${nextDate3.getFullYear()}`);
     };
     const markdownDefaultVal = replaceTemplate(markdownTemplate);
     const jsonDefaultVal = replaceTemplate(jsonTemplate);
