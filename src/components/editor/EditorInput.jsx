@@ -53,7 +53,7 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
                 const { from } = state.selection.main;
                 const line = state.doc.lineAt(from);
                 const lineText = line.text;
-                const dateMatch = lineText.match(/^-\s+(\d{1,2})\/(\d{1,2})(?:\s+(\d{2,4}))?/);
+                const dateMatch = lineText.match(/^-\s+(\d{1,2})\/(\d{1,2})(?:\s+(\d{2,4}))?(?:\s+(.*))?$/);
                 if (dateMatch) {
                     const currentDate = new Date();
                     currentDate.setMonth(parseInt(dateMatch[1], 10) - 1);
@@ -67,7 +67,7 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
                     }
                     const nextDate = getNextDate(currentDate);
                     if (shouldInsertNewDate(state, line.number, nextDate.getMonth(), nextDate.getDate())) {
-                        const newLine = `\n- ${nextDate.getMonth() + 1}/${nextDate.getDate()} `;
+                        const newLine = `\n- ${nextDate.getMonth() + 1}/${nextDate.getDate()} ${dateMatch[3] ? `${nextDate.getFullYear()} ` : ""}`;
                         view.dispatch({ changes: { from: line.to, insert: newLine }, selection: { anchor: line.to + newLine.length } });
                         return true;
                     }
