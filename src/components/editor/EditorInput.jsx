@@ -1,6 +1,6 @@
-//import { jsonLanguage } from "@codemirror/lang-json";
-//import { yamlLanguage } from "@codemirror/lang-yaml";
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { json, jsonLanguage } from "@codemirror/lang-json";
+//import { yamlLanguage } from "@codemirror/lang-yaml";
 import { languages } from "@codemirror/language-data";
 import { xcodeLight } from "@uiw/codemirror-theme-xcode";
 import { keymap } from "@codemirror/view";
@@ -102,6 +102,7 @@ function EditorInputDate({ onInputChange }) {
     const nextDate3 = getNextDate(nextDate2.month, nextDate2.day);
     const defaultVal = `# date\n- ${nextDate1.month}/${nextDate1.day} 10:00~12:00\n- ${nextDate2.month}/${nextDate2.day} *\n- ${nextDate3.month}/${nextDate3.day} *\n\n# format\nMM/dd(ddd)\n\n# *\n終日`;
     const [markdownDateContent, setMarkdownDateContent] = useState(defaultVal);
+    const [jsonDateContent, setJsonDateContent] = useState(defaultVal);
     const [LangTabValue, setLangTabValue] = useState("1");
 
     const onLangTabChange = (key) => {
@@ -110,6 +111,10 @@ function EditorInputDate({ onInputChange }) {
     const onMarkdownDateChanged = (date) => {
         onInputChange(date, LangTabValue);
         setMarkdownDateContent(date);
+    };
+    const onJsonDateChanged = (date) => {
+        onInputChange(date, LangTabValue);
+        setJsonDateContent(date);
     };
 
     useEffect(() => {
@@ -135,7 +140,16 @@ function EditorInputDate({ onInputChange }) {
                     },
                     {
                         label: 'JSON',
-                        key: '2'
+                        key: '2',
+                        children: <CodeEditor
+                            value={jsonDateContent}
+                            onChange={onJsonDateChanged}
+                            extensions={json({
+                                base: jsonLanguage,
+                                codeLanguages: languages,
+                            })}
+                            LangTabValue='2'
+                        />
                     },
                     {
                         label: 'YAML',
