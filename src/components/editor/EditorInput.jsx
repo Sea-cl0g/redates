@@ -78,7 +78,6 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
     } else if (LangTabValue === '3') {
         enterKeyExtension = yamlEnterKeyExtension;
     }
-    console.log(LangTabValue);
     return (
         <ReactCodeMirror
             value={value}
