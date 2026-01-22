@@ -183,11 +183,10 @@ function json2markdown(json, nest = 1) {
 // YAML
 function convertYamlText(message, date) {
   const json = yaml2json(date);
-  console.log(json);
   return convertJsonText(message, json);
 }
 
 function yaml2json(yaml) {
   const json = jsYaml.load(yaml);
-  return json;
+  return JSON.stringify(json);
 }
