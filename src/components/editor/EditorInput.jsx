@@ -99,9 +99,9 @@ function EditorInputDate({ onInputChange }) {
     const nextDate1 = getNextDate(month, date);
     const nextDate2 = getNextDate(nextDate1.month, nextDate1.day);
     const nextDate3 = getNextDate(nextDate2.month, nextDate2.day);
-    const defaultVal = `# date\n- ${nextDate1.month}/${nextDate1.day} 10:00~12:00\n- ${nextDate2.month}/${nextDate2.day} *\n- ${nextDate3.month}/${nextDate3.day} *\n\n# format\nMM/dd(ddd)\n\n# *\n終日`;
-    const [markdownDateContent, setMarkdownDateContent] = useState(defaultVal);
-    const [jsonDateContent, setJsonDateContent] = useState(defaultVal);
+    const markdownDefaultVal = `# date\n- ${nextDate1.month}/${nextDate1.day} 10:00~12:00\n- ${nextDate2.month}/${nextDate2.day} *\n- ${nextDate3.month}/${nextDate3.day} *\n\n# format\nMM/dd(ddd)\n\n# *\n終日`;
+    const [markdownDateContent, setMarkdownDateContent] = useState(markdownDefaultVal);
+    const [jsonDateContent, setJsonDateContent] = useState(markdownDefaultVal);
     const [LangTabValue, setLangTabValue] = useState("1");
 
     const onLangTabChange = (key) => {
