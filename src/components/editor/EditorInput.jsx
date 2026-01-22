@@ -8,7 +8,7 @@ import { Prec } from '@codemirror/state';
 import ReactCodeMirror from "@uiw/react-codemirror";
 
 import { useState, useMemo, useEffect } from 'react';
-import { Input, Flex, Tabs, Divider } from 'antd';
+import { Input, Flex, Tabs, Divider, Alert } from 'antd';
 
 import markdownTemplate from '../../../assets/templates/date.md?raw';
 import jsonTemplate from '../../../assets/templates/date.json?raw';
@@ -228,15 +228,18 @@ function EditorInputDate({ onInputChange }) {
                     {
                         label: 'YAML',
                         key: '3',
-                        children: <CodeEditor
-                            value={yamlDateContent}
-                            onChange={onYamlDateChanged}
-                            extensions={yaml({
-                                base: yamlLanguage,
-                                codeLanguages: languages,
-                            })}
-                            LangTabValue='3'
-                        />
+                        children: <Flex vertical gap="small">
+                            <Alert title="YAML is under development." type="warning" showIcon closable />
+                            <CodeEditor
+                                value={yamlDateContent}
+                                onChange={onYamlDateChanged}
+                                extensions={yaml({
+                                    base: yamlLanguage,
+                                    codeLanguages: languages,
+                                })}
+                                LangTabValue='3'
+                            />
+                        </Flex>
                     },
                 ]}
                 onChange={onLangTabChange}
