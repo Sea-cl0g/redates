@@ -149,7 +149,6 @@ function convertJsonText(message, date) {
     const markdown = json2markdown(json);
     dates = convertMarkdownText(message, markdown);
     console.log(markdown);
-    console.log(dates);
   } catch (e) {
     dates = e.message;
   } finally {
