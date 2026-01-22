@@ -1,3 +1,4 @@
+import { markdown } from '@codemirror/lang-markdown';
 import { rewriteText } from './aiSupport.js';
 
 export function convertText(message, date, lang) {
@@ -28,7 +29,7 @@ function convertMarkdownText(message, date) {
   const result = [];
 
   const dateIndex = finfDateList(lines);
-  if (dateIndex == -1) return "no Date";
+  if (dateIndex == -1) return "Failed to parse the schedule.";
 
   const defaultFormat = "MM/dd(ddd)"
   const format = "format" in dict ? (dict["format"]?.trim() ?? defaultFormat) : defaultFormat;
@@ -142,13 +143,39 @@ function formatDate({ dateData, comment }, format) {
 // ============================================================================
 // JSON
 function convertJsonText(message, date) {
-  let dates = "aaaaaa"
+  let dates;
   try {
     const json = JSON.parse(date);
-    dates = JSON.stringify(json, null, 2);
+    const markdown = json2markdown(json);
+    dates = convertMarkdownText(message, markdown);
+    console.log(markdown);
+    console.log(dates);
   } catch (e) {
     dates = e.message;
   } finally {
     return dates;
   }
+}
+
+function json2markdown(json, nest = 1) {
+  let result = [];
+  const prefix = '#'.repeat(nest);
+  for (const [key, value] of Object.entries(json)) {
+    result.push(`${prefix} ${key}`);
+
+    if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
+      result.push(json2markdown(value, nest + 1));
+    } else if (Array.isArray(value)) {
+      for (const item of value) {
+        const isObject = typeof item === 'object' && item !== null && !Array.isArray(item);
+        const isDateObj = 'date' in item && 'year' in item && 'comment' in item;
+        if (isObject && isDateObj) {
+          result.push(`- ${item.date} ${item.year} ${item.comment}`);
+        }
+      }
+    } else {
+      result.push(String(value));
+    }
+  }
+  return result.join('\n');
 }
