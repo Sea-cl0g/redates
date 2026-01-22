@@ -1,4 +1,5 @@
 import { rewriteText } from './aiSupport.js';
+import jsYaml from 'js-yaml';
 
 export function convertText(message, date, lang) {
   if (lang == 1) {
@@ -6,7 +7,7 @@ export function convertText(message, date, lang) {
   } else if (lang == 2) {
     return convertJsonText(message, date);
   } else if (lang == 3) {
-    return;
+    return convertYamlText(message, date);
   }
 }
 
@@ -176,4 +177,17 @@ function json2markdown(json, nest = 1) {
     }
   }
   return result.join('\n');
+}
+
+// ============================================================================
+// YAML
+function convertYamlText(message, date) {
+  const json = yaml2json(date);
+  console.log(json);
+  return convertJsonText(message, json);
+}
+
+function yaml2json(yaml) {
+  const json = jsYaml.load(yaml);
+  return json;
 }

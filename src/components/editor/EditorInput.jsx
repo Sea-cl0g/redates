@@ -174,7 +174,7 @@ function EditorInputDate({ onInputChange }) {
         } else if (tabVal === '2') {
             onInputChange(jsonDateContent, tabVal);
         } else if (tabVal === '3') {
-            onInputChange("yaml", tabVal);
+            onInputChange(yamlDateContent, tabVal);
         }
         setLangTabValue(tabVal);
     };
