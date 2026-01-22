@@ -1,7 +1,7 @@
 {
   "dates":[
     {"date":"1/23", "year":"2025", "comment":"10:00~12:00"},
-    {"date":"1/24", "year":"2025", "comment":"*"},
+    {"date":"1/24", "year":"2025", "comment":"@"},
     {"date":"1/25", "year":"2025", "comment":"@"}
   ],
   "format":"yyyy MM/dd (ddd)",
