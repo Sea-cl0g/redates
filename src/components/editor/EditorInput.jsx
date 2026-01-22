@@ -27,14 +27,10 @@ function EditorInputMessage({ onMessageChange }) {
 };
 
 // ============================================================================ //
-const getNextDate = (month, day) => {
-    const currentYear = new Date().getFullYear();
-    const currentDate = new Date(currentYear, month - 1, day);
-    currentDate.setDate(currentDate.getDate() + 1);
-    return {
-        month: currentDate.getMonth() + 1,
-        day: currentDate.getDate()
-    };
+const getNextDate = (today) => {
+    const nextDate = new Date(today);
+    nextDate.setDate(nextDate.getDate() + 1);
+    return nextDate;
 };
 
 function CodeEditor({ value, onChange, extensions, LangTabValue }) {
@@ -57,13 +53,21 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
                 const { from } = state.selection.main;
                 const line = state.doc.lineAt(from);
                 const lineText = line.text;
-                const dateMatch = lineText.match(/^-\s+(\d{1,2})\/(\d{1,2})/);
+                const dateMatch = lineText.match(/^-\s+(\d{1,2})\/(\d{1,2})(?:\s+(\d{2,4}))?/);
                 if (dateMatch) {
-                    const m = parseInt(dateMatch[1], 10);
-                    const d = parseInt(dateMatch[2], 10);
-                    const { month: nextMonth, day: nextDay } = getNextDate(m, d);
-                    if (shouldInsertNewDate(state, line.number, nextMonth, nextDay)) {
-                        const newLine = `\n- ${nextMonth}/${nextDay} `;
+                    const currentDate = new Date();
+                    currentDate.setMonth(parseInt(dateMatch[1], 10) - 1);
+                    currentDate.setDate(parseInt(dateMatch[2], 10));
+                    if (dateMatch[3]) {
+                        let year = parseInt(dateMatch[3], 10);
+                        if (year < 100) {
+                            year += 2000;
+                        }
+                        currentDate.setFullYear(year);
+                    }
+                    const nextDate = getNextDate(currentDate);
+                    if (shouldInsertNewDate(state, line.number, nextDate.getMonth(), nextDate.getDate())) {
+                        const newLine = `\n- ${nextDate.getMonth() + 1}/${nextDate.getDate()} `;
                         view.dispatch({ changes: { from: line.to, insert: newLine }, selection: { anchor: line.to + newLine.length } });
                         return true;
                     }
@@ -82,15 +86,16 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
                 const lineText = line.text;
                 const dateMatch = lineText.match(/\{\s*"date"\s*:\s*"(\d{1,2})\/(\d{1,2})"\s*,\s*"year"\s*:\s*"(\d{4})"\s*,\s*"comment"\s*:\s*"([^"]*)"\s*\}\s*(,?)/);
                 if (dateMatch) {
-                    const m = parseInt(dateMatch[1], 10);
-                    const d = parseInt(dateMatch[2], 10);
-                    const year = dateMatch[3];
+                    const currentDate = new Date();
+                    currentDate.setMonth(parseInt(dateMatch[1], 10) - 1);
+                    currentDate.setDate(parseInt(dateMatch[2], 10));
+                    currentDate.setFullYear(parseInt(dateMatch[3]));
                     const hasComma = dateMatch[5] === ',';
                     const nextLine = line.number < state.doc.lines ? state.doc.line(line.number + 1) : null;
                     const hasNextObject = nextLine && nextLine.text.trim().match(/^\{/);
-                    const { month: nextMonth, day: nextDay } = getNextDate(m, d);
-                    if (shouldInsertNewDate(state, line.number, nextMonth, nextDay)) {
-                        let newLine = `\n    {"date":"${nextMonth}/${nextDay}", "year":"${year}", "comment":""}`;
+                    const nextDate = getNextDate(currentDate);
+                    if (shouldInsertNewDate(state, line.number, nextDate.getMonth(), nextDate.getDate())) {
+                        let newLine = `\n    {"date":"${nextDate.getMonth() + 1}/${nextDate.getDate()}", "year":"${nextDate.getYear()}", "comment":""}`;
                         if (!hasComma) {
                             newLine = `,${newLine}`;
                         }
@@ -133,19 +138,17 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
 
 function EditorInputDate({ onInputChange }) {
     const today = new Date();
-    const month = today.getMonth() + 1;
-    const date = today.getDate();
-    const nextDate1 = getNextDate(month, date);
-    const nextDate2 = getNextDate(nextDate1.month, nextDate1.day);
-    const nextDate3 = getNextDate(nextDate2.month, nextDate2.day);
+    const nextDate1 = getNextDate(today);
+    const nextDate2 = getNextDate(nextDate1);
+    const nextDate3 = getNextDate(nextDate2);
     const replaceTemplate = (template) => {
         return template
-            .replace("$MONTH1", `${nextDate1.month}`)
-            .replace("$DATE1", `${nextDate1.day}`)
-            .replace("$MONTH2", `${nextDate2.month}`)
-            .replace("$DATE2", `${nextDate2.day}`)
-            .replace("$MONTH3", `${nextDate3.month}`)
-            .replace("$DATE3", `${nextDate3.day}`);
+            .replace("$MONTH1", `${nextDate1.getMonth() + 1}`)
+            .replace("$DATE1", `${nextDate1.getDate()}`)
+            .replace("$MONTH2", `${nextDate2.getMonth() + 1}`)
+            .replace("$DATE2", `${nextDate2.getDate()}`)
+            .replace("$MONTH3", `${nextDate3.getMonth() + 1}`)
+            .replace("$DATE3", `${nextDate3.getDate()}`);
     };
     const markdownDefaultVal = replaceTemplate(markdownTemplate);
     const jsonDefaultVal = replaceTemplate(jsonTemplate);
