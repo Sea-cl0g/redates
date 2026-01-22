@@ -1,4 +1,4 @@
-const rawdataURL = import.meta.env.VITE_REPOSITORY_URL?.replace("https://github.com", "");
+const repositoryName = import.meta.env.VITE_REPOSITORY_URL?.replace("https://github.com", "");
 const refCommit = import.meta.env.VITE_COMMIT_REF;
 
 import { useState } from 'react';
@@ -19,7 +19,7 @@ export default function Header() {
     setLoading(true);
     setIsModalOpen(true);
     try {
-      const readmeSource = rawdataURL && refCommit ? `https://raw.githubusercontent.com${rawdataURL}/${refCommit}/README.md` : '../../README.md'
+      const readmeSource = repositoryName && refCommit ? `https://raw.githubusercontent.com${repositoryName}/${refCommit}/README.md` : '../../README.md'
       console.log(`README Source: ${readmeSource}`);
       const response = await fetch(readmeSource);
       const text = await response.text();
@@ -66,7 +66,7 @@ export default function Header() {
         onCancel={() => setIsModalOpen(false)}
         loading={loading}
         footer={
-          <p>View source on <a href="https://github.com/Sea-cl0g/redates" target="_blank">GitHub</a>.</p>
+          <p>View source on <a href={repositoryName && refCommit ? `https://github.com${repositoryName}/blob/${refCommit}/README.md` : "https://github.com/Sea-cl0g/redates"} target="_blank">GitHub</a>.</p>
         }
         width={800}
         styles={{ body: { maxHeight: '60vh', overflowY: 'auto' } }}
