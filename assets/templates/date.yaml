@@ -1,4 +1,3 @@
----
 dates:
 - date: $MONTH1/$DATE1
   year: '2025'
@@ -9,5 +8,7 @@ dates:
 - date: $MONTH3/$DATE3
   year: '2025'
   comment: "*"
+
 format: MM/dd (ddd)
+
 "*": 終日
