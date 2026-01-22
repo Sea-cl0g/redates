@@ -4,7 +4,7 @@
 - $MONTH3/$DATE3 *
 
 # format
-MM/dd(ddd)
+MM/dd (ddd)
 
 # *
 終日
