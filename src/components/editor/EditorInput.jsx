@@ -24,6 +24,23 @@ function EditorInputMessage({ onMessageChange }) {
 
 // ============================================================================ //
 
+function CodeEditor({ value, onChange, base, codeLang, onEnterPressed }) {
+    return (
+        <ReactCodeMirror
+            value={value}
+            onChange={onChange}
+            theme={xcodeLight}
+            height="100%"
+            extensions={[
+                markdown({
+                    base: base,
+                    codeLanguages: codeLang,
+                }),
+                onEnterPressed,
+            ]}
+        />
+    )
+}
 
 function EditorInputDate({ onInputChange }) {
     const getNextDate = (month, day) => {
@@ -64,7 +81,7 @@ function EditorInputDate({ onInputChange }) {
         onInputChange(date, LangTabValue);
         setDateContent(date);
     };
-    const enterKeyExtension = useMemo(() => {
+    const markdownEnterKeyExtension = useMemo(() => {
         return Prec.highest(keymap.of([{
             key: "Enter",
             run: (view) => {
@@ -98,7 +115,14 @@ function EditorInputDate({ onInputChange }) {
                 items={[
                     {
                         label: 'Markdown',
-                        key: '1'
+                        key: '1',
+                        children: <CodeEditor
+                            value={dateContent}
+                            onChange={onDateChanged}
+                            base={markdownLanguage}
+                            codeLang={languages}
+                            onEnterPressed={markdownEnterKeyExtension}
+                        />
                     },
                     {
                         label: 'JSON',
@@ -111,19 +135,6 @@ function EditorInputDate({ onInputChange }) {
                     },
                 ]}
                 onChange={onLangTabChange}
-            />
-            <ReactCodeMirror
-                value={dateContent}
-                onChange={onDateChanged}
-                theme={xcodeLight}
-                height="100%"
-                extensions={[
-                    markdown({
-                        base: markdownLanguage,
-                        codeLanguages: languages,
-                    }),
-                    enterKeyExtension,
-                ]}
             />
         </Flex>
     );
