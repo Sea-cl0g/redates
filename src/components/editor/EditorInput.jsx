@@ -12,6 +12,7 @@ import { Input, Flex, Tabs, Divider } from 'antd';
 
 // ============================================================================ //
 
+
 function EditorInputMessage({ onMessageChange }) {
     const onChange = key => {
         onMessageChange(key.target.value);
@@ -20,6 +21,9 @@ function EditorInputMessage({ onMessageChange }) {
         <Input.TextArea rows={3} placeholder="Input Message" allowClear onChange={onChange} />
     );
 };
+
+// ============================================================================ //
+
 
 function EditorInputDate({ onInputChange }) {
     const getNextDate = (month, day) => {
