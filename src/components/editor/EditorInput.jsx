@@ -101,19 +101,19 @@ function EditorInputDate({ onInputChange }) {
     const nextDate2 = getNextDate(nextDate1.month, nextDate1.day);
     const nextDate3 = getNextDate(nextDate2.month, nextDate2.day);
     const defaultVal = `# date\n- ${nextDate1.month}/${nextDate1.day} 10:00~12:00\n- ${nextDate2.month}/${nextDate2.day} *\n- ${nextDate3.month}/${nextDate3.day} *\n\n# format\nMM/dd(ddd)\n\n# *\n終日`;
-    const [dateContent, setDateContent] = useState(defaultVal);
+    const [markdownDateContent, setMarkdownDateContent] = useState(defaultVal);
     const [LangTabValue, setLangTabValue] = useState("1");
 
     const onLangTabChange = (key) => {
         setLangTabValue(key);
     };
-    const onDateChanged = (date) => {
+    const onMarkdownDateChanged = (date) => {
         onInputChange(date, LangTabValue);
-        setDateContent(date);
+        setMarkdownDateContent(date);
     };
 
     useEffect(() => {
-        onInputChange(dateContent, LangTabValue);
+        onInputChange(markdownDateContent, LangTabValue);
     }, []);
     return (
         <Flex vertical style={{ flex: 1 }}>
@@ -124,8 +124,8 @@ function EditorInputDate({ onInputChange }) {
                         label: 'Markdown',
                         key: '1',
                         children: <CodeEditor
-                            value={dateContent}
-                            onChange={onDateChanged}
+                            value={markdownDateContent}
+                            onChange={onMarkdownDateChanged}
                             base={markdownLanguage}
                             codeLang={languages}
                             LangTabValue='1'
