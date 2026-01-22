@@ -1,5 +1,5 @@
-import { markdown } from '@codemirror/lang-markdown';
 import { rewriteText } from './aiSupport.js';
+import jsYaml from 'js-yaml';
 
 export function convertText(message, date, lang) {
   if (lang == 1) {
@@ -7,7 +7,7 @@ export function convertText(message, date, lang) {
   } else if (lang == 2) {
     return convertJsonText(message, date);
   } else if (lang == 3) {
-    return;
+    return convertYamlText(message, date);
   }
 }
 
@@ -15,9 +15,9 @@ export async function convertTextWithAI(message, date, lang, onUpdate) {
   if (lang == 1) {
     return await convertMarkdownTextWithAI(message, date, onUpdate);
   } else if (lang == 2) {
-    return;
+    return await convertJsonTextWithAI(message, date, onUpdate);
   } else if (lang == 3) {
-    return;
+    return await convertYamlTextWithAI(message, date, onUpdate);
   }
 }
 
@@ -49,12 +49,10 @@ function convertMarkdownText(message, date) {
 
 async function convertMarkdownTextWithAI(message, date, onUpdate) {
   const basicResult = convertMarkdownText(message, date);
-
   const enhancedResult = await rewriteText(
     basicResult,
     onUpdate
   );
-
   return enhancedResult;
 }
 
@@ -148,12 +146,20 @@ function convertJsonText(message, date) {
     const json = JSON.parse(date);
     const markdown = json2markdown(json);
     dates = convertMarkdownText(message, markdown);
-    console.log(markdown);
   } catch (e) {
     dates = e.message;
   } finally {
     return dates;
   }
+}
+
+async function convertJsonTextWithAI(message, date, onUpdate) {
+  const basicResult = convertJsonText(message, date);
+  const enhancedResult = await rewriteText(
+    basicResult,
+    onUpdate
+  );
+  return enhancedResult;
 }
 
 function json2markdown(json, nest = 1) {
@@ -177,4 +183,25 @@ function json2markdown(json, nest = 1) {
     }
   }
   return result.join('\n');
+}
+
+// ============================================================================
+// YAML
+function convertYamlText(message, date) {
+  const json = yaml2json(date);
+  return convertJsonText(message, json);
+}
+
+async function convertYamlTextWithAI(message, date, onUpdate) {
+  const basicResult = convertYamlText(message, date);
+  const enhancedResult = await rewriteText(
+    basicResult,
+    onUpdate
+  );
+  return enhancedResult;
+}
+
+function yaml2json(yaml) {
+  const json = jsYaml.load(yaml);
+  return JSON.stringify(json);
 }

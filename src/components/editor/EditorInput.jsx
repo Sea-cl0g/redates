@@ -1,6 +1,6 @@
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { json, jsonLanguage } from "@codemirror/lang-json";
-//import { yamlLanguage } from "@codemirror/lang-yaml";
+import { yaml, yamlLanguage } from "@codemirror/lang-yaml";
 import { languages } from "@codemirror/language-data";
 import { xcodeLight } from "@uiw/codemirror-theme-xcode";
 import { keymap } from "@codemirror/view";
@@ -8,7 +8,7 @@ import { Prec } from '@codemirror/state';
 import ReactCodeMirror from "@uiw/react-codemirror";
 
 import { useState, useMemo, useEffect } from 'react';
-import { Input, Flex, Tabs, Divider } from 'antd';
+import { Input, Flex, Tabs, Divider, Alert } from 'antd';
 
 import markdownTemplate from '../../../assets/templates/date.md?raw';
 import jsonTemplate from '../../../assets/templates/date.json?raw';
@@ -113,7 +113,14 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
             }
         }]));
     }, []);
-    const yamlEnterKeyExtension = useMemo(() => { }, []);
+    const yamlEnterKeyExtension = useMemo(() => {
+        return Prec.highest(keymap.of([{
+            key: "Enter",
+            run: (view) => {
+                return false;
+            }
+        }]));
+    }, []);
     let enterKeyExtension;
     if (LangTabValue === '1') {
         enterKeyExtension = markdownEnterKeyExtension;
@@ -145,15 +152,20 @@ function EditorInputDate({ onInputChange }) {
         return template
             .replace("$MONTH1", `${nextDate1.getMonth() + 1}`)
             .replace("$DATE1", `${nextDate1.getDate()}`)
+            .replace("$YEAR1", `${nextDate1.getFullYear()}`)
             .replace("$MONTH2", `${nextDate2.getMonth() + 1}`)
             .replace("$DATE2", `${nextDate2.getDate()}`)
+            .replace("$YEAR2", `${nextDate2.getFullYear()}`)
             .replace("$MONTH3", `${nextDate3.getMonth() + 1}`)
-            .replace("$DATE3", `${nextDate3.getDate()}`);
+            .replace("$DATE3", `${nextDate3.getDate()}`)
+            .replace("$YEAR3", `${nextDate3.getFullYear()}`);
     };
     const markdownDefaultVal = replaceTemplate(markdownTemplate);
     const jsonDefaultVal = replaceTemplate(jsonTemplate);
+    const yamlDefaultVal = replaceTemplate(yamlTemplate);
     const [markdownDateContent, setMarkdownDateContent] = useState(markdownDefaultVal);
     const [jsonDateContent, setJsonDateContent] = useState(jsonDefaultVal);
+    const [yamlDateContent, setYamlDateContent] = useState(yamlDefaultVal);
     const [LangTabValue, setLangTabValue] = useState("1");
 
     const onLangTabChange = (tabVal) => {
@@ -162,7 +174,7 @@ function EditorInputDate({ onInputChange }) {
         } else if (tabVal === '2') {
             onInputChange(jsonDateContent, tabVal);
         } else if (tabVal === '3') {
-            onInputChange("yaml", tabVal);
+            onInputChange(yamlDateContent, tabVal);
         }
         setLangTabValue(tabVal);
     };
@@ -173,6 +185,10 @@ function EditorInputDate({ onInputChange }) {
     const onJsonDateChanged = (date) => {
         onInputChange(date, LangTabValue);
         setJsonDateContent(date);
+    };
+    const onYamlDateChanged = (date) => {
+        onInputChange(date, LangTabValue);
+        setYamlDateContent(date);
     };
 
     useEffect(() => {
@@ -212,7 +228,18 @@ function EditorInputDate({ onInputChange }) {
                     {
                         label: 'YAML',
                         key: '3',
-                        disabled: true
+                        children: <Flex vertical gap="small">
+                            <Alert title="YAML is under development." type="warning" showIcon closable />
+                            <CodeEditor
+                                value={yamlDateContent}
+                                onChange={onYamlDateChanged}
+                                extensions={yaml({
+                                    base: yamlLanguage,
+                                    codeLanguages: languages,
+                                })}
+                                LangTabValue='3'
+                            />
+                        </Flex>
                     },
                 ]}
                 onChange={onLangTabChange}
