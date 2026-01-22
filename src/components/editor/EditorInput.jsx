@@ -33,7 +33,7 @@ const getNextDate = (month, day) => {
     };
 };
 
-function CodeEditor({ value, onChange, base, codeLang, LangTabValue }) {
+function CodeEditor({ value, onChange, extensions, LangTabValue }) {
     const shouldInsertNewDate = (state, lineNumber, nextMonth, nextDay) => {
         const nextLine = state.doc.line(lineNumber + 1);
         if (!nextLine) return true;
@@ -70,27 +70,27 @@ function CodeEditor({ value, onChange, base, codeLang, LangTabValue }) {
     }, []);
     const jsonEnterKeyExtension = useMemo(() => { }, []);
     const yamlEnterKeyExtension = useMemo(() => { }, []);
-    if (LangTabValue = '1') {
-        return (
-            <ReactCodeMirror
-                value={value}
-                onChange={onChange}
-                theme={xcodeLight}
-                height="100%"
-                extensions={[
-                    markdown({
-                        base: base,
-                        codeLanguages: codeLang,
-                    }),
-                    markdownEnterKeyExtension,
-                ]}
-            />
-        )
-    } else if (LangTabValue = '2') {
-
-    } else if (LangTabValue = '3') {
-
+    let enterKeyExtension;
+    if (LangTabValue === '1') {
+        enterKeyExtension = markdownEnterKeyExtension;
+    } else if (LangTabValue === '2') {
+        enterKeyExtension = markdownEnterKeyExtension;
+    } else if (LangTabValue === '3') {
+        enterKeyExtension = yamlEnterKeyExtension;
     }
+    console.log(LangTabValue);
+    return (
+        <ReactCodeMirror
+            value={value}
+            onChange={onChange}
+            theme={xcodeLight}
+            height="100%"
+            extensions={[
+                extensions,
+                enterKeyExtension,
+            ]}
+        />
+    )
 }
 
 function EditorInputDate({ onInputChange }) {
@@ -126,8 +126,10 @@ function EditorInputDate({ onInputChange }) {
                         children: <CodeEditor
                             value={markdownDateContent}
                             onChange={onMarkdownDateChanged}
-                            base={markdownLanguage}
-                            codeLang={languages}
+                            extensions={markdown({
+                                base: markdownLanguage,
+                                codeLanguages: languages,
+                            })}
                             LangTabValue='1'
                         />
                     },
