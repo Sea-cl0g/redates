@@ -1,0 +1,13 @@
+---
+dates:
+- date: $MONTH1/$DATE1
+  year: '2025'
+  comment: 10:00~12:00
+- date: $MONTH2/$DATE2
+  year: '2025'
+  comment: "*"
+- date: $MONTH3/$DATE3
+  year: '2025'
+  comment: "*"
+format: yyyy MM/dd (ddd)
+"*": 終日
