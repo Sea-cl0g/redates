@@ -95,7 +95,7 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
                     const hasNextObject = nextLine && nextLine.text.trim().match(/^\{/);
                     const nextDate = getNextDate(currentDate);
                     if (shouldInsertNewDate(state, line.number, nextDate.getMonth(), nextDate.getDate())) {
-                        let newLine = `\n    {"date":"${nextDate.getMonth() + 1}/${nextDate.getDate()}", "year":"${nextDate.getYear()}", "comment":""}`;
+                        let newLine = `\n    {"date":"${nextDate.getMonth() + 1}/${nextDate.getDate()}", "year":"${nextDate.getFullYear()}", "comment":""}`;
                         if (!hasComma) {
                             newLine = `,${newLine}`;
                         }
