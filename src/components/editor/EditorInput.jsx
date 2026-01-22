@@ -72,13 +72,49 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
             }
         }]));
     }, []);
-    const jsonEnterKeyExtension = useMemo(() => { }, []);
+    const jsonEnterKeyExtension = useMemo(() => {
+        return Prec.highest(keymap.of([{
+            key: "Enter",
+            run: (view) => {
+                const { state } = view;
+                const { from } = state.selection.main;
+                const line = state.doc.lineAt(from);
+                const lineText = line.text;
+                const dateMatch = lineText.match(/\{\s*"date"\s*:\s*"(\d{1,2})\/(\d{1,2})"\s*,\s*"year"\s*:\s*"(\d{4})"\s*,\s*"comment"\s*:\s*"([^"]*)"\s*\}\s*(,?)/);
+                if (dateMatch) {
+                    const m = parseInt(dateMatch[1], 10);
+                    const d = parseInt(dateMatch[2], 10);
+                    const year = dateMatch[3];
+                    const hasComma = dateMatch[5] === ',';
+                    const nextLine = line.number < state.doc.lines ? state.doc.line(line.number + 1) : null;
+                    const hasNextObject = nextLine && nextLine.text.trim().match(/^\{/);
+                    const { month: nextMonth, day: nextDay } = getNextDate(m, d);
+                    console.log(hasComma)
+                    if (shouldInsertNewDate(state, line.number, nextMonth, nextDay)) {
+                        let newLine = `\n    {"date":"${nextMonth}/${nextDay}", "year":"${year}", "comment":""}`;
+                        if (!hasComma) {
+                            newLine = `,${newLine}`;
+                        }
+                        if (hasNextObject) {
+                            newLine = `${newLine},`;
+                        }
+                        view.dispatch({
+                            changes: { from: line.to, insert: newLine },
+                            selection: { anchor: line.to + newLine.length }
+                        });
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }]));
+    }, []);
     const yamlEnterKeyExtension = useMemo(() => { }, []);
     let enterKeyExtension;
     if (LangTabValue === '1') {
         enterKeyExtension = markdownEnterKeyExtension;
     } else if (LangTabValue === '2') {
-        enterKeyExtension = markdownEnterKeyExtension;
+        enterKeyExtension = jsonEnterKeyExtension;
     } else if (LangTabValue === '3') {
         enterKeyExtension = yamlEnterKeyExtension;
     }
