@@ -112,12 +112,11 @@ function EditorInputDate({ onInputChange }) {
                 items={[
                     {
                         label: 'Markdown',
-                        key: '1',
+                        key: '1'
                     },
                     {
-                        label: 'Json',
-                        key: '2',
-                        disabled: true
+                        label: 'JSON',
+                        key: '2'
                     },
                     {
                         label: 'YAML',
