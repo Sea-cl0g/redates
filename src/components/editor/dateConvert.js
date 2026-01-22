@@ -4,7 +4,7 @@ export function convertText(message, date, lang) {
   if (lang == 1) {
     return convertMarkdownText(message, date);
   } else if (lang == 2) {
-    return;
+    return convertJsonText(message, date);
   } else if (lang == 3) {
     return;
   }
@@ -140,3 +140,15 @@ function formatDate({ dateData, comment }, format) {
 }
 
 // ============================================================================
+// JSON
+function convertJsonText(message, date) {
+  let dates = "aaaaaa"
+  try {
+    const json = JSON.parse(date);
+    dates = JSON.stringify(json, null, 2);
+  } catch (e) {
+    dates = e.message;
+  } finally {
+    return dates;
+  }
+}
