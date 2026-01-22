@@ -1,4 +1,3 @@
-import { markdown } from '@codemirror/lang-markdown';
 import { rewriteText } from './aiSupport.js';
 
 export function convertText(message, date, lang) {
