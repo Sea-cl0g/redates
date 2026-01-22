@@ -23,35 +23,17 @@ function EditorInputMessage({ onMessageChange }) {
 };
 
 // ============================================================================ //
-
-function CodeEditor({ value, onChange, base, codeLang, onEnterPressed }) {
-    return (
-        <ReactCodeMirror
-            value={value}
-            onChange={onChange}
-            theme={xcodeLight}
-            height="100%"
-            extensions={[
-                markdown({
-                    base: base,
-                    codeLanguages: codeLang,
-                }),
-                onEnterPressed,
-            ]}
-        />
-    )
-}
-
-function EditorInputDate({ onInputChange }) {
-    const getNextDate = (month, day) => {
-        const currentYear = new Date().getFullYear();
-        const currentDate = new Date(currentYear, month - 1, day);
-        currentDate.setDate(currentDate.getDate() + 1);
-        return {
-            month: currentDate.getMonth() + 1,
-            day: currentDate.getDate()
-        };
+const getNextDate = (month, day) => {
+    const currentYear = new Date().getFullYear();
+    const currentDate = new Date(currentYear, month - 1, day);
+    currentDate.setDate(currentDate.getDate() + 1);
+    return {
+        month: currentDate.getMonth() + 1,
+        day: currentDate.getDate()
     };
+};
+
+function CodeEditor({ value, onChange, base, codeLang, LangTabValue }) {
     const shouldInsertNewDate = (state, lineNumber, nextMonth, nextDay) => {
         const nextLine = state.doc.line(lineNumber + 1);
         if (!nextLine) return true;
@@ -63,24 +45,6 @@ function EditorInputDate({ onInputChange }) {
         return !(existingMonth === nextMonth && existingDay === nextDay);
     };
 
-    // getDefaultValues
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const date = today.getDate();
-    const nextDate1 = getNextDate(month, date);
-    const nextDate2 = getNextDate(nextDate1.month, nextDate1.day);
-    const nextDate3 = getNextDate(nextDate2.month, nextDate2.day);
-    const defaultVal = `# date\n- ${nextDate1.month}/${nextDate1.day} 10:00~12:00\n- ${nextDate2.month}/${nextDate2.day} *\n- ${nextDate3.month}/${nextDate3.day} *\n\n# format\nMM/dd(ddd)\n\n# *\n終日`;
-    const [dateContent, setDateContent] = useState(defaultVal);
-    const [LangTabValue, setLangTabValue] = useState("1");
-
-    const onLangTabChange = (key) => {
-        setLangTabValue(key);
-    };
-    const onDateChanged = (date) => {
-        onInputChange(date, LangTabValue);
-        setDateContent(date);
-    };
     const markdownEnterKeyExtension = useMemo(() => {
         return Prec.highest(keymap.of([{
             key: "Enter",
@@ -104,6 +68,49 @@ function EditorInputDate({ onInputChange }) {
             }
         }]));
     }, []);
+    const jsonEnterKeyExtension = useMemo(() => { }, []);
+    const yamlEnterKeyExtension = useMemo(() => { }, []);
+    if (LangTabValue = '1') {
+        return (
+            <ReactCodeMirror
+                value={value}
+                onChange={onChange}
+                theme={xcodeLight}
+                height="100%"
+                extensions={[
+                    markdown({
+                        base: base,
+                        codeLanguages: codeLang,
+                    }),
+                    markdownEnterKeyExtension,
+                ]}
+            />
+        )
+    } else if (LangTabValue = '2') {
+
+    } else if (LangTabValue = '3') {
+
+    }
+}
+
+function EditorInputDate({ onInputChange }) {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const date = today.getDate();
+    const nextDate1 = getNextDate(month, date);
+    const nextDate2 = getNextDate(nextDate1.month, nextDate1.day);
+    const nextDate3 = getNextDate(nextDate2.month, nextDate2.day);
+    const defaultVal = `# date\n- ${nextDate1.month}/${nextDate1.day} 10:00~12:00\n- ${nextDate2.month}/${nextDate2.day} *\n- ${nextDate3.month}/${nextDate3.day} *\n\n# format\nMM/dd(ddd)\n\n# *\n終日`;
+    const [dateContent, setDateContent] = useState(defaultVal);
+    const [LangTabValue, setLangTabValue] = useState("1");
+
+    const onLangTabChange = (key) => {
+        setLangTabValue(key);
+    };
+    const onDateChanged = (date) => {
+        onInputChange(date, LangTabValue);
+        setDateContent(date);
+    };
 
     useEffect(() => {
         onInputChange(dateContent, LangTabValue);
@@ -121,7 +128,7 @@ function EditorInputDate({ onInputChange }) {
                             onChange={onDateChanged}
                             base={markdownLanguage}
                             codeLang={languages}
-                            onEnterPressed={markdownEnterKeyExtension}
+                            LangTabValue='1'
                         />
                     },
                     {
