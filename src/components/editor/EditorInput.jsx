@@ -71,38 +71,27 @@ function EditorInputDate({ onInputChange }) {
     }, []);
 
     const enterKeyExtension = useMemo(() => {
-        return Prec.highest(keymap.of([
-            {
-                key: "Enter",
-                run: (view) => {
-                    const { state } = view;
-                    const { from } = state.selection.main;
-                    const line = state.doc.lineAt(from);
-                    const lineText = line.text;
-
-                    const dateMatch = lineText.match(/^-\s+(\d{1,2})\/(\d{1,2})/);
-
-                    if (dateMatch) {
-                        const m = parseInt(dateMatch[1], 10);
-                        const d = parseInt(dateMatch[2], 10);
-
-                        const { month: nextMonth, day: nextDay } = getNextDate(m, d);
-
-                        if (shouldInsertNewDate(state, line.number, nextMonth, nextDay)) {
-                            const newLine = `\n- ${nextMonth}/${nextDay} `;
-
-                            view.dispatch({
-                                changes: { from: line.to, insert: newLine },
-                                selection: { anchor: line.to + newLine.length }
-                            });
-
-                            return true;
-                        }
+        return Prec.highest(keymap.of([{
+            key: "Enter",
+            run: (view) => {
+                const { state } = view;
+                const { from } = state.selection.main;
+                const line = state.doc.lineAt(from);
+                const lineText = line.text;
+                const dateMatch = lineText.match(/^-\s+(\d{1,2})\/(\d{1,2})/);
+                if (dateMatch) {
+                    const m = parseInt(dateMatch[1], 10);
+                    const d = parseInt(dateMatch[2], 10);
+                    const { month: nextMonth, day: nextDay } = getNextDate(m, d);
+                    if (shouldInsertNewDate(state, line.number, nextMonth, nextDay)) {
+                        const newLine = `\n- ${nextMonth}/${nextDay} `;
+                        view.dispatch({ changes: { from: line.to, insert: newLine }, selection: { anchor: line.to + newLine.length } });
+                        return true;
                     }
-                    return false;
                 }
+                return false;
             }
-        ]));
+        }]));
     }, []);
 
     return (
