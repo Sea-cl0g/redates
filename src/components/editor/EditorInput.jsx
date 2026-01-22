@@ -1,6 +1,6 @@
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { json, jsonLanguage } from "@codemirror/lang-json";
-//import { yamlLanguage } from "@codemirror/lang-yaml";
+import { yaml, yamlLanguage } from "@codemirror/lang-yaml";
 import { languages } from "@codemirror/language-data";
 import { xcodeLight } from "@uiw/codemirror-theme-xcode";
 import { keymap } from "@codemirror/view";
@@ -113,7 +113,14 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
             }
         }]));
     }, []);
-    const yamlEnterKeyExtension = useMemo(() => { }, []);
+    const yamlEnterKeyExtension = useMemo(() => {
+        return Prec.highest(keymap.of([{
+            key: "Enter",
+            run: (view) => {
+                return false;
+            }
+        }]));
+    }, []);
     let enterKeyExtension;
     if (LangTabValue === '1') {
         enterKeyExtension = markdownEnterKeyExtension;
@@ -152,8 +159,10 @@ function EditorInputDate({ onInputChange }) {
     };
     const markdownDefaultVal = replaceTemplate(markdownTemplate);
     const jsonDefaultVal = replaceTemplate(jsonTemplate);
+    const yamlDefaultVal = replaceTemplate(yamlTemplate);
     const [markdownDateContent, setMarkdownDateContent] = useState(markdownDefaultVal);
     const [jsonDateContent, setJsonDateContent] = useState(jsonDefaultVal);
+    const [yamlDateContent, setYamlDateContent] = useState(yamlDefaultVal);
     const [LangTabValue, setLangTabValue] = useState("1");
 
     const onLangTabChange = (tabVal) => {
@@ -173,6 +182,10 @@ function EditorInputDate({ onInputChange }) {
     const onJsonDateChanged = (date) => {
         onInputChange(date, LangTabValue);
         setJsonDateContent(date);
+    };
+    const onYamlDateChanged = (date) => {
+        onInputChange(date, LangTabValue);
+        setYamlDateContent(date);
     };
 
     useEffect(() => {
@@ -212,7 +225,15 @@ function EditorInputDate({ onInputChange }) {
                     {
                         label: 'YAML',
                         key: '3',
-                        disabled: true
+                        children: <CodeEditor
+                            value={yamlDateContent}
+                            onChange={onYamlDateChanged}
+                            extensions={yaml({
+                                base: yamlLanguage,
+                                codeLanguages: languages,
+                            })}
+                            LangTabValue='3'
+                        />
                     },
                 ]}
                 onChange={onLangTabChange}
