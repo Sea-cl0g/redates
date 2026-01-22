@@ -154,8 +154,16 @@ function EditorInputDate({ onInputChange }) {
     const [jsonDateContent, setJsonDateContent] = useState(jsonDefaultVal);
     const [LangTabValue, setLangTabValue] = useState("1");
 
-    const onLangTabChange = (key) => {
-        setLangTabValue(key);
+    const onLangTabChange = (tabVal) => {
+        console.log(tabVal);
+        if (tabVal === '1') {
+            onInputChange(markdownDateContent, tabVal);
+        } else if (tabVal === '2') {
+            onInputChange(jsonDateContent, tabVal);
+        } else if (tabVal === '3') {
+            onInputChange("yaml", tabVal);
+        }
+        setLangTabValue(tabVal);
     };
     const onMarkdownDateChanged = (date) => {
         onInputChange(date, LangTabValue);
