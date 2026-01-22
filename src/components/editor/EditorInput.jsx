@@ -89,7 +89,6 @@ function CodeEditor({ value, onChange, extensions, LangTabValue }) {
                     const nextLine = line.number < state.doc.lines ? state.doc.line(line.number + 1) : null;
                     const hasNextObject = nextLine && nextLine.text.trim().match(/^\{/);
                     const { month: nextMonth, day: nextDay } = getNextDate(m, d);
-                    console.log(hasComma)
                     if (shouldInsertNewDate(state, line.number, nextMonth, nextDay)) {
                         let newLine = `\n    {"date":"${nextMonth}/${nextDay}", "year":"${year}", "comment":""}`;
                         if (!hasComma) {
@@ -155,7 +154,6 @@ function EditorInputDate({ onInputChange }) {
     const [LangTabValue, setLangTabValue] = useState("1");
 
     const onLangTabChange = (tabVal) => {
-        console.log(tabVal);
         if (tabVal === '1') {
             onInputChange(markdownDateContent, tabVal);
         } else if (tabVal === '2') {
